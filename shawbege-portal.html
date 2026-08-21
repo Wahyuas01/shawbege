@@ -45,8 +45,7 @@
 <body class="font-body text-navy-900 antialiased">
 
 <div class="min-h-screen flex">
-
-  <!-- ============ SIDEBAR ============ -->
+  <!-- SIDEBAR -->
   <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-900 text-slate-300 h-screen sticky top-0">
     <div class="h-16 flex items-center gap-2.5 px-6 border-b border-white/10 font-display font-extrabold text-white">
       <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
@@ -85,10 +84,8 @@
     </div>
   </aside>
 
-  <!-- ============ MAIN ============ -->
+  <!-- MAIN MAIN -->
   <div class="flex-1 min-w-0">
-
-    <!-- top bar -->
     <header class="sticky top-0 z-30 h-16 bg-white/85 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 lg:px-8">
       <div class="flex items-center gap-2 text-sm">
         <span class="lg:hidden font-display font-extrabold text-navy-900">ShawBege</span>
@@ -103,73 +100,32 @@
     </header>
 
     <main class="p-5 lg:p-8 max-w-7xl mx-auto">
-
-      <!-- OVERVIEW -->
       <section id="view-overview" class="view">
         <h1 id="welcomeText" class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Halo... 👋</h1>
         <p class="text-slate-500 mt-1.5">Ringkasan operasional komunitas ShawBege hari ini.</p>
-
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-7">
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Total Member</p>
-            <p class="font-display font-extrabold text-3xl mt-2">312</p>
-            <p class="text-xs text-green-600 mt-1">+5 minggu ini</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Item Stok Menipis</p>
-            <p class="font-display font-extrabold text-3xl mt-2 text-amber-600">3</p>
-            <p class="text-xs text-slate-400 mt-1">Perlu restock</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Setoran Minggu Ini</p>
-            <p class="font-display font-extrabold text-3xl mt-2">Rp 2,1jt</p>
-            <p class="text-xs text-green-600 mt-1">dari 6 mekanik</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Servis Bulan Ini</p>
-            <p class="font-display font-extrabold text-3xl mt-2">47</p>
-            <p class="text-xs text-slate-400 mt-1">pekerjaan tercatat</p>
-          </div>
-        </div>
       </section>
 
-      <!-- MEMBER DIRECTORY -->
       <section id="view-member" class="view hidden">
         <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Member Directory</h1>
-        <div class="mt-6 bg-white border border-slate-200 rounded-2xl overflow-hidden p-4">
-          <p class="text-slate-500 text-sm">Modul Member Directory Aktif.</p>
-        </div>
       </section>
 
-      <!-- WAREHOUSE -->
       <section id="view-warehouse" class="view hidden">
         <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Warehouse Management</h1>
-        <div class="mt-6 bg-white border border-slate-200 rounded-2xl overflow-hidden p-4">
-          <p class="text-slate-500 text-sm">Modul Warehouse Management Aktif.</p>
-        </div>
       </section>
 
-      <!-- WORKSHOP CENTER -->
       <section id="view-workshop" class="view hidden">
         <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Workshop Center</h1>
-        <div class="mt-6 bg-white border border-slate-200 rounded-2xl overflow-hidden p-4">
-          <p class="text-slate-500 text-sm">Modul Workshop Center Aktif.</p>
-        </div>
       </section>
-
     </main>
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SCRIPT TUNGGAL (BERSIH & ANTI-MENTAL)     -->
-<!-- ========================================== -->
+<!-- SCRIPT TUNGGAL (BERSIH) -->
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-  // 1. NAVIGASI UI (SIDEBAR & TAB)
+  // NAVIGASI UI
   const crumbMap = { overview:'Overview', member:'Member Directory', warehouse:'Warehouse', workshop:'Workshop Center' };
-  
   document.querySelectorAll('.navlink, .navshortcut').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.target;
@@ -181,53 +137,38 @@
     });
   });
 
-  // 2. AUTENTIKASI DENGAN DELAY LATCH (CEGAH MENTAL)
+  // AUTENTIKASI SUPABASE (CEGAH MENTAL)
   async function initAuth() {
     const hasTokenInUrl = window.location.hash.includes('access_token');
 
-    // JIKA BARU KEMBALI DARI DISCORD (#access_token):
-    // Tunggu 500ms agar Supabase SDK selesai memproses & menyimpan token ke localStorage
+    // Beri waktu 500ms jika membawa token OAuth dari Discord
     if (hasTokenInUrl) {
       await new Promise(resolve => setTimeout(resolve, 500));
     }
 
-    // Ambil sesi login dari Supabase
     const { data: { session } } = await supabase.auth.getSession();
 
-    // Jika BENAR-BENAR tidak ada sesi login, baru tendang balik ke index.html
     if (!session) {
-      console.warn("Tidak ada sesi login aktif. Mengalihkan ke index.html");
       window.location.href = '/index.html';
       return;
     }
 
-    // Jika sesi ADA / LOGIN BERHASIL:
-    // Bersihkan hash token panjang di URL agar rapi
     if (window.location.hash) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // Tampilkan data user Discord di UI Portal
-    const user = session.user;
-    const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member';
-
-    const userNameEl = document.getElementById('userName');
-    const welcomeTextEl = document.getElementById('welcomeText');
-    const userAvatarEl = document.getElementById('userAvatar');
-
-    if (userNameEl) userNameEl.textContent = discordName;
-    if (welcomeTextEl) welcomeTextEl.textContent = `Halo, ${discordName} 👋`;
-    if (userAvatarEl) userAvatarEl.textContent = discordName.substring(0, 2).toUpperCase();
+    const discordName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Member';
+    
+    document.getElementById('userName').textContent = discordName;
+    document.getElementById('welcomeText').textContent = `Halo, ${discordName} 👋`;
+    document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
   }
 
-  // 3. LOGOUT
-  document.getElementById('btnLogout')?.addEventListener('click', async (e) => {
-    e.preventDefault();
+  document.getElementById('btnLogout')?.addEventListener('click', async () => {
     await supabase.auth.signOut();
     window.location.href = '/index.html';
   });
 
-  // Jalankan saat halaman dimuat
   document.addEventListener('DOMContentLoaded', initAuth);
 </script>
 </body>
