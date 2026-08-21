@@ -351,19 +351,13 @@
     if (btn) {
       btn.addEventListener('click', async (e) => {
         e.preventDefault();
-        console.log('Tombol diklik!');
+        console.log('Tombol diklik! Menghubungkan ke Discord...');
         await loginWithDiscord();
       });
-    } else {
-      console.error('Tombol tidak ditemukan!');
     }
   });
 </script>
-  // kalau tombol Join Discord mau dipakai juga:
-  // document.getElementById('btn-join-discord').addEventListener('click', async (e) => {
-  //   e.preventDefault()
-  //   await loginWithDiscord()
-  // })
-</script>
+</body>
+</html>
 </body>
 </html>
