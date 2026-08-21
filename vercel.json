@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/shawbege-portal.html",
+      "destination": "/shawbege-portal.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
