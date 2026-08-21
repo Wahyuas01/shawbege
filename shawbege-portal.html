@@ -45,8 +45,7 @@
 <body class="font-body text-navy-900 antialiased">
 
 <div class="min-h-screen flex">
-
-  <!-- ============ SIDEBAR ============ -->
+  <!-- SIDEBAR -->
   <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-900 text-slate-300 h-screen sticky top-0">
     <div class="h-16 flex items-center gap-2.5 px-6 border-b border-white/10 font-display font-extrabold text-white">
       <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
@@ -76,19 +75,17 @@
 
     <div class="p-4 border-t border-white/10">
       <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-teal flex items-center justify-center font-display font-bold text-white text-sm shrink-0">AR</div>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-teal flex items-center justify-center font-display font-bold text-white text-sm shrink-0">SB</div>
         <div class="min-w-0">
-          <p class="text-sm font-semibold text-white truncate">Ardi.rzk</p>
-          <p class="text-xs text-slate-400 truncate">Pengurus Gudang</p>
+          <p class="text-sm font-semibold text-white truncate">Loading...</p>
+          <p class="text-xs text-slate-400 truncate">Member</p>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ============ MAIN ============ -->
+  <!-- MAIN CONTENT -->
   <div class="flex-1 min-w-0">
-
-    <!-- top bar -->
     <header class="sticky top-0 z-30 h-16 bg-white/85 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 lg:px-8">
       <div class="flex items-center gap-2 text-sm">
         <span class="lg:hidden font-display font-extrabold text-navy-900">ShawBege</span>
@@ -98,559 +95,90 @@
         <span class="hidden sm:flex items-center gap-1.5 text-xs font-mono text-green-600 bg-green-50 border border-green-200 rounded-full px-3 py-1">
           <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Live
         </span>
-        <a href="#" class="text-sm font-semibold text-slate-500 hover:text-navy-900 transition-colors">Keluar</a>
+        <button id="btnLogout" class="text-sm font-semibold text-slate-500 hover:text-navy-900 transition-colors">Keluar</button>
       </div>
     </header>
 
     <main class="p-5 lg:p-8 max-w-7xl mx-auto">
-
-      <!-- ============================================================ -->
-      <!-- OVERVIEW -->
-      <!-- ============================================================ -->
       <section id="view-overview" class="view">
-        <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Halo, Ardi 👋</h1>
+        <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Halo... 👋</h1>
         <p class="text-slate-500 mt-1.5">Ringkasan operasional komunitas ShawBege hari ini.</p>
-
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-7">
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Total Member</p>
-            <p class="font-display font-extrabold text-3xl mt-2">312</p>
-            <p class="text-xs text-green-600 mt-1">+5 minggu ini</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Item Stok Menipis</p>
-            <p class="font-display font-extrabold text-3xl mt-2 text-amber-600">3</p>
-            <p class="text-xs text-slate-400 mt-1">Perlu restock</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Setoran Minggu Ini</p>
-            <p class="font-display font-extrabold text-3xl mt-2">Rp 2,1jt</p>
-            <p class="text-xs text-green-600 mt-1">dari 6 mekanik</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Servis Bulan Ini</p>
-            <p class="font-display font-extrabold text-3xl mt-2">47</p>
-            <p class="text-xs text-slate-400 mt-1">pekerjaan tercatat</p>
-          </div>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-5 mt-8">
-          <button data-target="member" class="navshortcut text-left border border-slate-200 rounded-2xl p-6 bg-white hover:border-accent/40 hover:shadow-lg hover:shadow-slate-200/60 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-navy-900 flex items-center justify-center mb-4">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            </div>
-            <p class="font-display font-bold">Member Directory</p>
-            <p class="text-sm text-slate-500 mt-1.5">Lihat & cari data keanggotaan komunitas.</p>
-          </button>
-          <button data-target="warehouse" class="navshortcut text-left border border-slate-200 rounded-2xl p-6 bg-white hover:border-accent/40 hover:shadow-lg hover:shadow-slate-200/60 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-navy-900 flex items-center justify-center mb-4">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V21H3V8"/><path d="M1 3h22v5H1z"/></svg>
-            </div>
-            <p class="font-display font-bold">Warehouse</p>
-            <p class="text-sm text-slate-500 mt-1.5">Kelola stok ikan, material, komponen & kas.</p>
-          </button>
-          <button data-target="workshop" class="navshortcut text-left border border-slate-200 rounded-2xl p-6 bg-white hover:border-accent/40 hover:shadow-lg hover:shadow-slate-200/60 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-navy-900 flex items-center justify-center mb-4">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            </div>
-            <p class="font-display font-bold">Workshop Center</p>
-            <p class="text-sm text-slate-500 mt-1.5">Setoran mekanik, stok komponen & log servis.</p>
-          </button>
-        </div>
       </section>
 
-      <!-- ============================================================ -->
-      <!-- MEMBER DIRECTORY -->
-      <!-- ============================================================ -->
       <section id="view-member" class="view hidden">
-        <div class="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Member Directory</h1>
-            <p class="text-slate-500 mt-1.5">312 member terverifikasi di komunitas ShawBege.</p>
-          </div>
-        </div>
-
+        <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Member Directory</h1>
         <div class="mt-6 bg-white border border-slate-200 rounded-2xl overflow-hidden">
           <div class="p-4 border-b border-slate-200 flex flex-wrap gap-3">
-            <div class="relative flex-1 min-w-[200px]">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              <input id="memberSearch" type="text" placeholder="Cari nama atau ID Discord..." class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-lg focus:border-accent outline-none">
-            </div>
-            <select id="memberRole" class="text-sm border border-slate-200 rounded-lg px-3 py-2.5 outline-none focus:border-accent">
-              <option value="">Semua Role</option>
-              <option>Pengurus Gudang</option>
-              <option>Mekanik</option>
-              <option>Moderator</option>
-              <option>Member</option>
-            </select>
-            <select id="memberStatus" class="text-sm border border-slate-200 rounded-lg px-3 py-2.5 outline-none focus:border-accent">
-              <option value="">Semua Status</option>
-              <option>Active</option>
-              <option>Inactive</option>
-            </select>
+            <input id="memberSearch" type="text" placeholder="Cari nama atau ID..." class="px-3 py-2 border rounded-lg text-sm">
+            <select id="memberRole" class="px-3 py-2 border rounded-lg text-sm"><option value="">Semua Role</option></select>
+            <select id="memberStatus" class="px-3 py-2 border rounded-lg text-sm"><option value="">Semua Status</option></select>
           </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                  <th class="px-5 py-3">ID Discord</th>
-                  <th class="px-5 py-3">Nama</th>
-                  <th class="px-5 py-3">Role</th>
-                  <th class="px-5 py-3">Status</th>
-                  <th class="px-5 py-3">Bergabung</th>
-                </tr>
-              </thead>
-              <tbody id="memberBody"></tbody>
-            </table>
-          </div>
-          <div class="flex items-center justify-between px-5 py-3.5 border-t border-slate-200 text-xs text-slate-400">
-            <span id="memberCount">Menampilkan 8 dari 312</span>
-            <div class="flex gap-1">
-              <button class="px-2.5 py-1 border border-slate-200 rounded-md hover:bg-slate-50">‹</button>
-              <button class="px-2.5 py-1 border border-slate-200 rounded-md bg-navy-900 text-white">1</button>
-              <button class="px-2.5 py-1 border border-slate-200 rounded-md hover:bg-slate-50">2</button>
-              <button class="px-2.5 py-1 border border-slate-200 rounded-md hover:bg-slate-50">3</button>
-              <button class="px-2.5 py-1 border border-slate-200 rounded-md hover:bg-slate-50">›</button>
-            </div>
-          </div>
+          <table class="w-full text-sm">
+            <tbody id="memberBody"></tbody>
+          </table>
+          <div id="memberCount" class="p-4 text-xs text-slate-400">Loading data...</div>
         </div>
       </section>
 
-      <!-- ============================================================ -->
-      <!-- WAREHOUSE -->
-      <!-- ============================================================ -->
       <section id="view-warehouse" class="view hidden">
         <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Warehouse Management</h1>
-        <p class="text-slate-500 mt-1.5">Stok ikan, material, komponen, dan kas gudang komunitas.</p>
-
-        <div class="grid sm:grid-cols-3 gap-4 mt-6">
-          <div class="bg-navy-900 text-white rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Saldo Kas Gudang</p>
-            <p class="font-display font-extrabold text-2xl mt-2">Rp 8.240.000</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Masuk Bulan Ini</p>
-            <p class="font-display font-extrabold text-2xl mt-2 text-green-600">+Rp 3.150.000</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl p-5">
-            <p class="text-xs text-slate-400 font-mono uppercase tracking-wide">Keluar Bulan Ini</p>
-            <p class="font-display font-extrabold text-2xl mt-2 text-red-500">-Rp 1.480.000</p>
-          </div>
-        </div>
-
-        <!-- sub tabs -->
-        <div class="flex gap-1.5 mt-8 border-b border-slate-200 pb-0 flex-wrap">
-          <button data-sub="ikan" class="subtab active px-4 py-2 text-sm font-medium rounded-t-lg text-slate-500">🐟 Ikan</button>
-          <button data-sub="material" class="subtab px-4 py-2 text-sm font-medium rounded-t-lg text-slate-500">🧱 Material</button>
-          <button data-sub="komponen" class="subtab px-4 py-2 text-sm font-medium rounded-t-lg text-slate-500">⚙️ Komponen</button>
-        </div>
-
-        <div class="bg-white border border-slate-200 border-t-0 rounded-b-2xl rounded-tr-2xl overflow-hidden">
-          <div id="sub-ikan" class="subview overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Jenis Ikan</th><th class="px-5 py-3">Stok</th><th class="px-5 py-3">Satuan</th><th class="px-5 py-3">Update Terakhir</th>
-              </tr></thead>
-              <tbody>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Tuna</td><td class="px-5 py-3">128</td><td class="px-5 py-3 text-slate-500">ekor</td><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu, 14:20</td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Kakap Merah</td><td class="px-5 py-3">64</td><td class="px-5 py-3 text-slate-500">ekor</td><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu, 09:05</td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Kerapu</td><td class="px-5 py-3"><span class="text-amber-600 font-semibold">18</span></td><td class="px-5 py-3 text-slate-500">ekor</td><td class="px-5 py-3 text-slate-400 font-mono text-xs">19 Agu, 22:41</td></tr>
-                <tr><td class="px-5 py-3 font-medium">Cakalang</td><td class="px-5 py-3">95</td><td class="px-5 py-3 text-slate-500">ekor</td><td class="px-5 py-3 text-slate-400 font-mono text-xs">19 Agu, 18:10</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div id="sub-material" class="subview hidden overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Nama Material</th><th class="px-5 py-3">Kategori</th><th class="px-5 py-3">Jumlah Unit</th><th class="px-5 py-3">Update Terakhir</th>
-              </tr></thead>
-              <tbody>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Kayu Jati</td><td class="px-5 py-3 text-slate-500">Konstruksi</td><td class="px-5 py-3"><span class="text-red-500 font-semibold">6 batang</span></td><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu, 11:30</td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Besi Siku</td><td class="px-5 py-3 text-slate-500">Konstruksi</td><td class="px-5 py-3">42 batang</td><td class="px-5 py-3 text-slate-400 font-mono text-xs">18 Agu, 16:00</td></tr>
-                <tr><td class="px-5 py-3 font-medium">Cat Anti Karat</td><td class="px-5 py-3 text-slate-500">Finishing</td><td class="px-5 py-3">15 kaleng</td><td class="px-5 py-3 text-slate-400 font-mono text-xs">17 Agu, 13:15</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div id="sub-komponen" class="subview hidden overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Nama Komponen</th><th class="px-5 py-3">Kategori</th><th class="px-5 py-3">Stok Cadangan</th><th class="px-5 py-3">Status</th>
-              </tr></thead>
-              <tbody>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Filter Oli</td><td class="px-5 py-3 text-slate-500">Sparepart Umum</td><td class="px-5 py-3">54</td><td class="px-5 py-3"><span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Cukup</span></td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Ban Cadangan</td><td class="px-5 py-3 text-slate-500">Sparepart Umum</td><td class="px-5 py-3">7</td><td class="px-5 py-3"><span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1">Menipis</span></td></tr>
-                <tr><td class="px-5 py-3 font-medium">Kampas Rem</td><td class="px-5 py-3 text-slate-500">Sparepart Umum</td><td class="px-5 py-3">31</td><td class="px-5 py-3"><span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Cukup</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- log transaksi -->
-        <div class="mt-8">
-          <h2 class="font-display font-bold text-lg">Log Transaksi</h2>
-          <div class="mt-3 bg-white border border-slate-200 rounded-2xl overflow-hidden overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Timestamp</th><th class="px-5 py-3">Kategori</th><th class="px-5 py-3">Deskripsi</th><th class="px-5 py-3">Tipe</th><th class="px-5 py-3">Jumlah</th><th class="px-5 py-3">Penanggung Jawab</th>
-              </tr></thead>
-              <tbody>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu, 14:20</td><td class="px-5 py-3">Ikan</td><td class="px-5 py-3">Setoran hasil tangkapan Tuna</td><td class="px-5 py-3"><span class="text-green-600 font-semibold">Masuk</span></td><td class="px-5 py-3">+32 ekor</td><td class="px-5 py-3 text-slate-500">Dimas</td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu, 11:30</td><td class="px-5 py-3">Material</td><td class="px-5 py-3">Pemakaian Kayu Jati — perbaikan rak</td><td class="px-5 py-3"><span class="text-red-500 font-semibold">Keluar</span></td><td class="px-5 py-3">-4 batang</td><td class="px-5 py-3 text-slate-500">Ardi.rzk</td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu, 09:05</td><td class="px-5 py-3">Kas</td><td class="px-5 py-3">Penjualan Kakap Merah</td><td class="px-5 py-3"><span class="text-green-600 font-semibold">Masuk</span></td><td class="px-5 py-3">+Rp 450.000</td><td class="px-5 py-3 text-slate-500">Dimas</td></tr>
-                <tr><td class="px-5 py-3 text-slate-400 font-mono text-xs">19 Agu, 22:41</td><td class="px-5 py-3">Kas</td><td class="px-5 py-3">Pembelian Ban Cadangan</td><td class="px-5 py-3"><span class="text-red-500 font-semibold">Keluar</span></td><td class="px-5 py-3">-Rp 210.000</td><td class="px-5 py-3 text-slate-500">Sekar</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </section>
 
-      <!-- ============================================================ -->
-      <!-- WORKSHOP CENTER -->
-      <!-- ============================================================ -->
       <section id="view-workshop" class="view hidden">
         <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Workshop Center</h1>
-        <p class="text-slate-500 mt-1.5">Komponen mekanik, setoran, dan log pekerjaan servis.</p>
-
-        <!-- mechanic inventory -->
-        <div class="mt-7">
-          <h2 class="font-display font-bold text-lg">Mechanic Inventory</h2>
-          <div class="mt-3 bg-white border border-slate-200 rounded-2xl overflow-hidden overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Komponen</th><th class="px-5 py-3">Dialokasikan Untuk</th><th class="px-5 py-3">Stok</th><th class="px-5 py-3">Status</th>
-              </tr></thead>
-              <tbody>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 font-medium">Set Suspensi</td><td class="px-5 py-3 text-slate-500">Servis Berat</td><td class="px-5 py-3">36</td><td class="px-5 py-3"><span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Cukup</span></td></tr>
-                <tr><td class="px-5 py-3 font-medium">Oli Mesin 4L</td><td class="px-5 py-3 text-slate-500">Servis Rutin</td><td class="px-5 py-3">12</td><td class="px-5 py-3"><span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1">Menipis</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- setoran tracker -->
-        <div class="mt-8 grid lg:grid-cols-5 gap-5">
-          <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-6">
-            <h2 class="font-display font-bold text-lg">Catat Setoran</h2>
-            <p class="text-sm text-slate-500 mt-1">Setoran harian/mingguan mekanik ke kas komunitas.</p>
-            <form id="setoranForm" class="mt-5 space-y-3.5">
-              <div>
-                <label class="text-xs font-medium text-slate-500">Nama Mekanik</label>
-                <input id="fMekanik" required type="text" placeholder="cth. Rizal" class="mt-1 w-full text-sm border border-slate-200 rounded-lg px-3 py-2.5 outline-none focus:border-accent">
-              </div>
-              <div>
-                <label class="text-xs font-medium text-slate-500">Jumlah Setoran (Rp)</label>
-                <input id="fJumlah" required type="number" placeholder="250000" class="mt-1 w-full text-sm border border-slate-200 rounded-lg px-3 py-2.5 outline-none focus:border-accent">
-              </div>
-              <div>
-                <label class="text-xs font-medium text-slate-500">Catatan</label>
-                <input id="fCatatan" type="text" placeholder="opsional" class="mt-1 w-full text-sm border border-slate-200 rounded-lg px-3 py-2.5 outline-none focus:border-accent">
-              </div>
-              <button type="submit" class="w-full bg-navy-900 text-white text-sm font-semibold rounded-lg py-2.5 hover:bg-deep transition-colors">Simpan Setoran</button>
-              <p id="setoranMsg" class="text-xs text-green-600 hidden">Setoran tercatat.</p>
-            </form>
-          </div>
-
-          <div class="lg:col-span-3 bg-white border border-slate-200 rounded-2xl overflow-hidden overflow-x-auto">
-            <div class="px-5 py-3.5 border-b border-slate-200 font-display font-bold text-sm">Rekap Setoran</div>
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Tanggal</th><th class="px-5 py-3">Mekanik</th><th class="px-5 py-3">Jumlah</th><th class="px-5 py-3">Status</th>
-              </tr></thead>
-              <tbody id="setoranBody">
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu</td><td class="px-5 py-3 font-medium">Rizal</td><td class="px-5 py-3">Rp 450.000</td><td class="px-5 py-3"><span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Terverifikasi</span></td></tr>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 text-slate-400 font-mono text-xs">19 Agu</td><td class="px-5 py-3 font-medium">Bagus</td><td class="px-5 py-3">Rp 300.000</td><td class="px-5 py-3"><span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1">Menunggu</span></td></tr>
-                <tr><td class="px-5 py-3 text-slate-400 font-mono text-xs">18 Agu</td><td class="px-5 py-3 font-medium">Rizal</td><td class="px-5 py-3">Rp 380.000</td><td class="px-5 py-3"><span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Terverifikasi</span></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- work logs -->
-        <div class="mt-8">
-          <h2 class="font-display font-bold text-lg">Work Logs</h2>
-          <div class="mt-3 bg-white border border-slate-200 rounded-2xl overflow-hidden overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead><tr class="text-left text-xs text-slate-400 font-mono uppercase tracking-wide border-b border-slate-200">
-                <th class="px-5 py-3">Tanggal</th><th class="px-5 py-3">Mekanik</th><th class="px-5 py-3">Jenis Pekerjaan</th><th class="px-5 py-3">Komponen Digunakan</th>
-              </tr></thead>
-              <tbody>
-                <tr class="border-b border-slate-100"><td class="px-5 py-3 text-slate-400 font-mono text-xs">20 Agu</td><td class="px-5 py-3 font-medium">Rizal</td><td class="px-5 py-3">Servis suspensi</td><td class="px-5 py-3 text-slate-500">Set Suspensi ×1</td></tr>
-                <tr><td class="px-5 py-3 text-slate-400 font-mono text-xs">19 Agu</td><td class="px-5 py-3 font-medium">Bagus</td><td class="px-5 py-3">Ganti oli rutin</td><td class="px-5 py-3 text-slate-500">Oli Mesin 4L ×2</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </section>
-
     </main>
   </div>
 </div>
 
-<script>
-  // ---------- view / sidebar navigation ----------
-  const crumbMap = { overview:'Overview', member:'Member Directory', warehouse:'Warehouse', workshop:'Workshop Center' };
-  function showView(target){
-    document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-    document.getElementById('view-'+target).classList.remove('hidden');
-    document.querySelectorAll('.navlink').forEach(b => b.classList.toggle('active', b.dataset.target===target));
-    document.getElementById('crumb').textContent = crumbMap[target];
-  }
-  document.querySelectorAll('.navlink, .navshortcut').forEach(btn=>{
-    btn.addEventListener('click', ()=> showView(btn.dataset.target));
-  });
-
-  // ---------- warehouse sub-tabs ----------
-  document.querySelectorAll('.subtab').forEach(tab=>{
-    tab.addEventListener('click', ()=>{
-      document.querySelectorAll('.subtab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-      document.querySelectorAll('.subview').forEach(v=>v.classList.add('hidden'));
-      document.getElementById('sub-'+tab.dataset.sub).classList.remove('hidden');
-    });
-  });
-
-  // ---------- member directory data + filter ----------
-  const members = [
-    {id:'482910', nama:'Dimas Prasetyo', role:'Pengurus Gudang', status:'Active', join:'12 Jan 2025'},
-    {id:'119284', nama:'Rizal Ahmadi', role:'Mekanik', status:'Active', join:'03 Feb 2025'},
-    {id:'773621', nama:'Sekar Wulandari', role:'Moderator', status:'Active', join:'22 Nov 2024'},
-    {id:'554029', nama:'Bagus Setiawan', role:'Mekanik', status:'Active', join:'09 Mar 2025'},
-    {id:'908372', nama:'Nadia Kusuma', role:'Member', status:'Inactive', join:'15 Jul 2024'},
-    {id:'204891', nama:'Fajar Ramadhan', role:'Member', status:'Active', join:'30 Apr 2025'},
-    {id:'661738', nama:'Ardi Rizky', role:'Pengurus Gudang', status:'Active', join:'18 Jan 2025'},
-    {id:'339104', nama:'Putri Ayu', role:'Member', status:'Inactive', join:'05 Sep 2024'},
-  ];
-  const statusPill = s => s==='Active'
-    ? '<span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Active</span>'
-    : '<span class="text-xs font-semibold text-slate-500 bg-slate-100 border border-slate-200 rounded-full px-2.5 py-1">Inactive</span>';
-
-  function renderMembers(){
-    const q = memberSearch.value.toLowerCase();
-    const role = memberRole.value, status = memberStatus.value;
-    const filtered = members.filter(m =>
-      (m.nama.toLowerCase().includes(q) || m.id.includes(q)) &&
-      (!role || m.role===role) && (!status || m.status===status)
-    );
-    memberBody.innerHTML = filtered.map(m => `
-      <tr class="row-in border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
-        <td class="px-5 py-3 font-mono text-xs text-slate-500">${m.id}</td>
-        <td class="px-5 py-3 font-medium">${m.nama}</td>
-        <td class="px-5 py-3 text-slate-500">${m.role}</td>
-        <td class="px-5 py-3">${statusPill(m.status)}</td>
-        <td class="px-5 py-3 text-slate-500">${m.join}</td>
-      </tr>`).join('') || `<tr><td colspan="5" class="px-5 py-8 text-center text-slate-400">Tidak ada member yang cocok.</td></tr>`;
-    memberCount.textContent = `Menampilkan ${filtered.length} dari 312`;
-  }
-  ['memberSearch','memberRole','memberStatus'].forEach(id => document.getElementById(id).addEventListener('input', renderMembers));
-  renderMembers();
-
-  // ---------- setoran form ----------
-  setoranForm.addEventListener('submit', e=>{
-    e.preventDefault();
-    const nama = fMekanik.value.trim();
-    const jumlah = Number(fJumlah.value);
-    if(!nama || !jumlah) return;
-    const row = document.createElement('tr');
-    row.className = 'row-in border-b border-slate-100';
-    row.innerHTML = `<td class="px-5 py-3 text-slate-400 font-mono text-xs">Hari ini</td><td class="px-5 py-3 font-medium">${nama}</td><td class="px-5 py-3">Rp ${jumlah.toLocaleString('id-ID')}</td><td class="px-5 py-3"><span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1">Menunggu</span></td>`;
-    setoranBody.prepend(row);
-    setoranForm.reset();
-    setoranMsg.classList.remove('hidden');
-    setTimeout(()=> setoranMsg.classList.add('hidden'), 2500);
-  });
-</script>
-</body>
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-async function initAuth() {
-  // Jika URL membawa token OAuth Discord, biarkan Supabase memprosesnya
-  if (window.location.hash.includes('access_token')) {
-    // Beri waktu Supabase menyimpan sesi ke localStorage
-    const { data: { session } } = await supabase.auth.getSession()
-    if (session) {
-      window.history.replaceState({}, document.title, window.location.pathname)
-      setupPortal(session.user)
-      return
-    }
-  }
+  // NAVIGASI UI
+  const crumbMap = { overview:'Overview', member:'Member Directory', warehouse:'Warehouse', workshop:'Workshop Center' };
+  document.querySelectorAll('.navlink, .navshortcut').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-' + target)?.classList.remove('hidden');
+      document.querySelectorAll('.navlink').forEach(b => b.classList.toggle('active', b.dataset.target === target));
+      document.getElementById('crumb').textContent = crumbMap[target] || 'Portal Internal';
+    });
+  });
 
-  // Cek sesi normal
-  const { data: { session } } = await supabase.auth.getSession()
-
-  if (!session) {
-    // Hanya redirect jika BENAR-BENAR tidak ada sesi & tidak ada token di URL
-    window.location.href = '/index.html'
-    return
-  }
-
-  setupPortal(session.user)
-}
-
-function setupPortal(user) {
-  const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member'
-  
-  const nameEl = document.querySelector('aside .truncate')
-  const roleEl = document.querySelectorAll('aside .truncate')[1]
-  const avatarEl = document.querySelector('aside .font-display.font-bold')
-  const welcomeEl = document.querySelector('#view-overview h1')
-
-  if (nameEl) nameEl.textContent = discordName
-  if (roleEl) roleEl.textContent = 'Member'
-  if (avatarEl) avatarEl.textContent = discordName.substring(0, 2).toUpperCase()
-  if (welcomeEl) welcomeEl.textContent = `Halo, ${discordName} 👋`
-}
-
-document.addEventListener('DOMContentLoaded', initAuth)
-
-  let currentUser = null;
-
-  // ==========================================
-  // 1. APLIKASI UTAMA & AUTENTIKASI SUPABASE
-  // ==========================================
-  async function initApp() {
-    console.log("Memulai pemeriksaan sesi Supabase...");
-
-    // Ambil Sesi saat ini
-    // Cek sesi
+  // AUTENTIKASI SINGLE-ENTRY
+  async function initAuth() {
     const { data: { session } } = await supabase.auth.getSession();
 
-    // Jika tidak ada session, JANGAN langsung ditendang jika URL masih membawa hash #
     if (!session && !window.location.hash.includes('access_token')) {
       window.location.href = '/index.html';
       return;
     }
 
-    // Dengarkan perubahan status login
     supabase.auth.onAuthStateChange(async (event, currentSession) => {
-      console.log("Auth Event:", event);
-
       if (currentSession) {
-        // Bersihkan token dari URL biar rapi
         if (window.location.hash) {
           window.history.replaceState({}, document.title, window.location.pathname);
         }
+        
+        const user = currentSession.user;
+        const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member';
 
-        currentUser = currentSession.user;
-        const discordName = currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || 'Member';
-
-        // Update UI Nama Profil
-        updateProfileUI(discordName, 'Member');
-
-        // Ambil data asli dari tabel Supabase 'members'
-        await loadRealMembers();
+        document.querySelector('aside .truncate').textContent = discordName;
+        document.querySelector('#view-overview h1').textContent = `Halo, ${discordName} 👋`;
+        document.querySelector('aside .font-display.font-bold').textContent = discordName.substring(0, 2).toUpperCase();
       } else if (event === 'SIGNED_OUT') {
         window.location.href = '/index.html';
       }
     });
   }
 
-  function updateProfileUI(username, role) {
-    const nameEl = document.querySelector('aside .truncate');
-    const roleEl = document.querySelectorAll('aside .truncate')[1];
-    const avatarEl = document.querySelector('aside .font-display.font-bold');
-    const welcomeEl = document.querySelector('#view-overview h1');
-
-    if (nameEl) nameEl.textContent = username;
-    if (roleEl) roleEl.textContent = role;
-    if (avatarEl) avatarEl.textContent = username.substring(0, 2).toUpperCase();
-    if (welcomeEl) welcomeEl.textContent = `Halo, ${username} 👋`;
-  }
-
-  // ==========================================
-  // 2. NAVIGASI SIDEBAR & TAB (ASLI UI)
-  // ==========================================
-  const crumbMap = { overview:'Overview', member:'Member Directory', warehouse:'Warehouse', workshop:'Workshop Center' };
-  
-  function showView(target){
-    document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-    const targetView = document.getElementById('view-' + target);
-    if (targetView) targetView.classList.remove('hidden');
-    
-    document.querySelectorAll('.navlink').forEach(b => b.classList.toggle('active', b.dataset.target === target));
-    const crumb = document.getElementById('crumb');
-    if (crumb) crumb.textContent = crumbMap[target];
-  }
-
-  document.querySelectorAll('.navlink, .navshortcut').forEach(btn => {
-    btn.addEventListener('click', () => showView(btn.dataset.target));
-  });
-
-  document.querySelectorAll('.subtab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.subtab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      document.querySelectorAll('.subview').forEach(v => v.classList.add('hidden'));
-      const targetSub = document.getElementById('sub-' + tab.dataset.sub);
-      if (targetSub) targetSub.classList.remove('hidden');
-    });
-  });
-
-  // ==========================================
-  // 3. MEMBER DIRECTORY & FORM SETORAN
-  // ==========================================
-  async function loadRealMembers() {
-    const searchInput = document.getElementById('memberSearch');
-    const roleSelect = document.getElementById('memberRole');
-    const statusSelect = document.getElementById('memberStatus');
-
-    const q = searchInput ? searchInput.value.toLowerCase() : '';
-    const role = roleSelect ? roleSelect.value : '';
-    const status = statusSelect ? statusSelect.value : '';
-
-    let query = supabase.from('members').select('*');
-
-    if (role) query = query.eq('role', role);
-    if (status) query = query.eq('status', status);
-
-    const { data: members, error } = await query;
-
-    const memberBody = document.getElementById('memberBody');
-    const memberCount = document.getElementById('memberCount');
-
-    if (error || !members || members.length === 0) {
-      if (memberBody) memberBody.innerHTML = `<tr><td colspan="5" class="px-5 py-8 text-center text-slate-400">Belum ada data member.</td></tr>`;
-      return;
-    }
-
-    const filtered = members.filter(m => 
-      (m.discord_username && m.discord_username.toLowerCase().includes(q)) || 
-      (m.discord_id && m.discord_id.includes(q))
-    );
-
-    const statusPill = s => (s === 'active' || s === 'Active')
-      ? '<span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Active</span>'
-      : '<span class="text-xs font-semibold text-slate-500 bg-slate-100 border border-slate-200 rounded-full px-2.5 py-1">Inactive</span>';
-
-    if (memberBody) {
-      memberBody.innerHTML = filtered.map(m => `
-        <tr class="row-in border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
-          <td class="px-5 py-3 font-mono text-xs text-slate-500">${m.discord_id || '-'}</td>
-          <td class="px-5 py-3 font-medium">${m.discord_username || 'Member'}</td>
-          <td class="px-5 py-3 text-slate-500">${m.role || 'Member'}</td>
-          <td class="px-5 py-3">${statusPill(m.status)}</td>
-          <td class="px-5 py-3 text-slate-500">${m.joined_at ? new Date(m.joined_at).toLocaleDateString('id-ID') : '-'}</td>
-        </tr>
-      `).join('');
-    }
-
-    if (memberCount) memberCount.textContent = `Menampilkan ${filtered.length} dari ${members.length}`;
-  }
-
-  ['memberSearch','memberRole','memberStatus'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', loadRealMembers);
-  });
-
-  // LOGOUT
-  document.querySelector('header a[href="#"]')?.addEventListener('click', async (e) => {
-    e.preventDefault();
+  document.getElementById('btnLogout')?.addEventListener('click', async () => {
     await supabase.auth.signOut();
     window.location.href = '/index.html';
   });
 
-  // JALANKAN APLIKASI
-  document.addEventListener('DOMContentLoaded', initApp);
+  document.addEventListener('DOMContentLoaded', initAuth);
 </script>
+</body>
 </html>
