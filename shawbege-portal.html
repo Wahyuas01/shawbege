@@ -464,65 +464,79 @@
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-  async function handleAuth() {
-    // 1. Ambil sesi login dari Supabase
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+  async function initPortalAuth() {
+    try {
+      // 1. Berikan waktu 100ms agar Supabase SDK selesai memproses hash #access_token dari URL
+      if (window.location.hash.includes('access_token')) {
+        await new Promise(resolve => setTimeout(resolve, 200))
+      }
 
-    // Jika tidak ada sesi login, kembalikan ke index.html
-    if (!session || sessionError) {
-      console.warn('Sesi tidak ditemukan, mengalihkan ke index.html')
-      window.location.href = '/index.html'
-      return
+      // 2. Ambil sesi login aktif
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+
+      if (sessionError || !session) {
+        console.warn('Sesi tidak valid/belum login. Mengalihkan ke index.html')
+        window.location.href = '/index.html'
+        return
+      }
+
+      // 3. Bersihkan hash token dari URL agar tampak rapi
+      if (window.location.hash) {
+        window.history.replaceState({}, document.title, window.location.pathname)
+      }
+
+      const user = session.user
+      const discordName = user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Member'
+
+      // 4. Update UI Utama terlebih dahulu tanpa menunggu Database (Cegah Stuck)
+      updateUI(discordName, 'Member')
+
+      // 5. Coba ambil data detail dari tabel 'members'
+      const { data: member, error: memberError } = await supabase
+        .from('members')
+        .select('discord_username, role')
+        .eq('id', user.id)
+        .maybeSingle() // Gunakan maybeSingle() agar tidak melemparkan exception jika data belum ada
+
+      if (member) {
+        updateUI(member.discord_username, member.role || 'Member')
+      } else {
+        // Jika data member belum ada di database, otomatis daftarkan (upsert)
+        await supabase.from('members').upsert({
+          id: user.id,
+          discord_id: user.user_metadata?.provider_id || user.id,
+          discord_username: discordName,
+          role: 'Pengurus Gudang',
+          status: 'active'
+        }, { onConflict: 'id' })
+      }
+
+    } catch (err) {
+      console.error('Terjadi kesalahan saat memproses otentikasi:', err)
+      // Jangan langsung melempar ke index.html jika hanya error query minor
     }
+  }
 
-    // 2. Bersihkan hash token OAuth dari URL Vercel
-    if (window.location.hash) {
-      window.history.replaceState({}, document.title, window.location.pathname)
-    }
-
-    const user = session.user
-    const discordUsername = user.user_metadata.full_name || user.user_metadata.name || 'Member'
-
-    // 3. Auto-Insert / Upsert User ke Tabel 'members'
-    // Menggunakan ID Auth Supabase agar tidak error .single()
-    const { data: member, error: memberError } = await supabase
-      .from('members')
-      .upsert({
-        id: user.id,
-        discord_id: user.user_metadata.provider_id || user.id,
-        discord_username: discordUsername,
-        role: 'Pengurus Gudang', // Default role pertama
-        status: 'active'
-      }, { onConflict: 'id' })
-      .select()
-      .single()
-
-    // 4. Update Tampilan UI Sidebar & Header secara Aman
-    const usernameText = member ? member.discord_username : discordUsername
-    const roleText = member ? member.role : 'Member'
-
+  function updateUI(username, role) {
     const nameEl = document.querySelector('aside .truncate')
     const roleEl = document.querySelectorAll('aside .truncate')[1]
     const avatarEl = document.querySelector('aside .font-display.font-bold')
     const welcomeEl = document.querySelector('#view-overview h1')
 
-    if (nameEl) nameEl.textContent = usernameText
-    if (roleEl) roleEl.textContent = roleText
-    if (avatarEl) avatarEl.textContent = usernameText.substring(0, 2).toUpperCase()
-    if (welcomeEl) welcomeEl.textContent = `Halo, ${usernameText} 👋`
+    if (nameEl) nameEl.textContent = username
+    if (roleEl) roleEl.textContent = role
+    if (avatarEl) avatarEl.textContent = username.substring(0, 2).toUpperCase()
+    if (welcomeEl) welcomeEl.textContent = `Halo, ${username} 👋`
   }
 
-  // 5. Handle Logout
-  const logoutBtn = document.querySelector('header a[href="#"]')
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (e) => {
-      e.preventDefault()
-      await supabase.auth.signOut()
-      window.location.href = '/index.html'
-    })
-  }
+  // Handle Logout
+  document.querySelector('header a[href="#"]')?.addEventListener('click', async (e) => {
+    e.preventDefault()
+    await supabase.auth.signOut()
+    window.location.href = '/index.html'
+  })
 
-  // Jalankan autentikasi saat DOM selesai dimuat
-  document.addEventListener('DOMContentLoaded', handleAuth)
+  // Jalankan saat halaman siap
+  document.addEventListener('DOMContentLoaded', initPortalAuth)
 </script>
 </html>
