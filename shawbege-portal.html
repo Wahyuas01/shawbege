@@ -473,11 +473,11 @@
     console.log("Memulai pemeriksaan sesi Supabase...");
 
     // Ambil Sesi saat ini
+    // Cek sesi
     const { data: { session } } = await supabase.auth.getSession();
 
-    // Jika TIDAK ADA sesi DAN TIDAK ADA token di URL, baru kembalikan ke index.html
+    // Jika tidak ada session, JANGAN langsung ditendang jika URL masih membawa hash #
     if (!session && !window.location.hash.includes('access_token')) {
-      console.warn("Tidak ada sesi login. Dialihkan ke index.html");
       window.location.href = '/index.html';
       return;
     }
