@@ -167,7 +167,7 @@
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-  // 1. NAVIGASI UI TAB & SIDEBAR
+  // 1. NAVIGASI UI (SIDEBAR & TAB)
   const crumbMap = { overview:'Overview', member:'Member Directory', warehouse:'Warehouse', workshop:'Workshop Center' };
   
   document.querySelectorAll('.navlink, .navshortcut').forEach(btn => {
@@ -181,51 +181,53 @@
     });
   });
 
-  // 2. AUTENTIKASI SUPABASE
+  // 2. AUTENTIKASI DENGAN DELAY LATCH (CEGAH MENTAL)
   async function initAuth() {
-    console.log("Mengecek Autentikasi...");
     const hasTokenInUrl = window.location.hash.includes('access_token');
 
-    // Mencegah mental: Jika URL membawa token, JANGAN redirect dulu
-    if (!hasTokenInUrl) {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        console.warn("Sesi tidak ditemukan. Mengalihkan ke index.html");
-        window.location.href = '/index.html';
-        return;
-      }
+    // JIKA BARU KEMBALI DARI DISCORD (#access_token):
+    // Tunggu 500ms agar Supabase SDK selesai memproses & menyimpan token ke localStorage
+    if (hasTokenInUrl) {
+      await new Promise(resolve => setTimeout(resolve, 500));
     }
 
-    // Listener Resmi Supabase untuk membaca login Discord
-    supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth State Changed:", event, session);
+    // Ambil sesi login dari Supabase
+    const { data: { session } } = await supabase.auth.getSession();
 
-      if (session) {
-        // Hapus token panjang dari URL agar bersih
-        if (window.location.hash) {
-          window.history.replaceState({}, document.title, window.location.pathname);
-        }
+    // Jika BENAR-BENAR tidak ada sesi login, baru tendang balik ke index.html
+    if (!session) {
+      console.warn("Tidak ada sesi login aktif. Mengalihkan ke index.html");
+      window.location.href = '/index.html';
+      return;
+    }
 
-        const discordName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Member';
+    // Jika sesi ADA / LOGIN BERHASIL:
+    // Bersihkan hash token panjang di URL agar rapi
+    if (window.location.hash) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
-        // Update Profil di Sidebar & Overview
-        document.getElementById('userName').textContent = discordName;
-        document.getElementById('welcomeText').textContent = `Halo, ${discordName} 👋`;
-        document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
+    // Tampilkan data user Discord di UI Portal
+    const user = session.user;
+    const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member';
 
-      } else if (event === 'SIGNED_OUT' || (!session && !hasTokenInUrl)) {
-        window.location.href = '/index.html';
-      }
-    });
+    const userNameEl = document.getElementById('userName');
+    const welcomeTextEl = document.getElementById('welcomeText');
+    const userAvatarEl = document.getElementById('userAvatar');
+
+    if (userNameEl) userNameEl.textContent = discordName;
+    if (welcomeTextEl) welcomeTextEl.textContent = `Halo, ${discordName} 👋`;
+    if (userAvatarEl) userAvatarEl.textContent = discordName.substring(0, 2).toUpperCase();
   }
 
-  // 3. EVENT LOGOUT
-  document.getElementById('btnLogout')?.addEventListener('click', async () => {
+  // 3. LOGOUT
+  document.getElementById('btnLogout')?.addEventListener('click', async (e) => {
+    e.preventDefault();
     await supabase.auth.signOut();
     window.location.href = '/index.html';
   });
 
-  // Jalankan saat halaman siap
+  // Jalankan saat halaman dimuat
   document.addEventListener('DOMContentLoaded', initAuth);
 </script>
 </body>
