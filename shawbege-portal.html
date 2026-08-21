@@ -461,4 +461,149 @@
   });
 </script>
 </body>
+<script type="module">
+  import { supabase } from './lib/supebase.js'
+
+  // Variable penampung user aktif
+  let currentUser = null;
+
+  // 1. Cek Autentikasi & Ambil Profil User
+  async function initAuth() {
+    const { data: { session } } = await supabase.auth.getSession()
+
+    // Jika belum login, tendang ke landing page
+    if (!session) {
+      window.location.href = '/index.html'
+      return
+    }
+
+    // Ambil data profil dari tabel 'members'
+    const { data: member, error } = await supabase
+      .from('members')
+      .select('id, discord_username, role, status')
+      .eq('id', session.user.id)
+      .single()
+
+    if (error) {
+      console.error('Gagal memuat profil:', error.message)
+    } else if (member) {
+      currentUser = member
+
+      // Update Tampilan Sidebar (Nama, Role, Inisial)
+      const nameEl = document.querySelector('aside .truncate')
+      const roleEl = document.querySelectorAll('aside .truncate')[1]
+      const avatarEl = document.querySelector('aside .font-display.font-bold')
+      const welcomeEl = document.querySelector('#view-overview h1')
+
+      if (nameEl) nameEl.textContent = member.discord_username
+      if (roleEl) roleEl.textContent = member.role
+      if (avatarEl) avatarEl.textContent = member.discord_username.substring(0, 2).toUpperCase()
+      if (welcomeEl) welcomeEl.textContent = `Halo, ${member.discord_username} 👋`
+    }
+  }
+
+  // 2. Hubungkan Fitur Logout
+  const logoutBtn = document.querySelector('header a[href="#"]')
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault()
+      await supabase.auth.signOut()
+      window.location.href = '/index.html'
+    })
+  }
+
+  // 3. Load Member Directory Asli dari Supabase Database
+  async function loadRealMembers() {
+    const searchVal = document.getElementById('memberSearch').value.toLowerCase()
+    const roleVal = document.getElementById('memberRole').value
+    const statusVal = document.getElementById('memberStatus').value
+
+    let query = supabase
+      .from('members')
+      .select('discord_id, discord_username, role, status, joined_at', { count: 'exact' })
+      .order('joined_at', { ascending: false })
+
+    if (roleVal) query = query.eq('role', roleVal)
+    if (statusVal) query = query.eq('status', statusVal)
+    if (searchVal) query = query.or(`discord_username.ilike.%${searchVal}%,discord_id.ilike.%${searchVal}%`)
+
+    const { data: realMembers, count, error } = await query
+
+    if (error) {
+      console.error('Error fetching members:', error.message)
+      return
+    }
+
+    const memberBody = document.getElementById('memberBody')
+    const memberCount = document.getElementById('memberCount')
+
+    const statusPill = s => s === 'active' || s === 'Active'
+      ? '<span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-1">Active</span>'
+      : '<span class="text-xs font-semibold text-slate-500 bg-slate-100 border border-slate-200 rounded-full px-2.5 py-1">Inactive</span>'
+
+    if (realMembers && realMembers.length > 0) {
+      memberBody.innerHTML = realMembers.map(m => `
+        <tr class="row-in border-b border-slate-100 last:border-0 hover:bg-slate-50/60">
+          <td class="px-5 py-3 font-mono text-xs text-slate-500">${m.discord_id || '-'}</td>
+          <td class="px-5 py-3 font-medium">${m.discord_username}</td>
+          <td class="px-5 py-3 text-slate-500">${m.role || 'Member'}</td>
+          <td class="px-5 py-3">${statusPill(m.status)}</td>
+          <td class="px-5 py-3 text-slate-500">${new Date(m.joined_at).toLocaleDateString('id-ID')}</td>
+        </tr>
+      `).join('')
+    } else {
+      memberBody.innerHTML = `<tr><td colspan="5" class="px-5 py-8 text-center text-slate-400">Tidak ada member yang cocok di database.</td></tr>`
+    }
+
+    if (memberCount) memberCount.textContent = `Menampilkan ${realMembers ? realMembers.length : 0} dari ${count || 0}`
+  }
+
+  // 4. Overwrite Listener Member Search & Filter
+  ['memberSearch', 'memberRole', 'memberStatus'].forEach(id => {
+    const el = document.getElementById(id)
+    if (el) el.addEventListener('input', loadRealMembers)
+  })
+
+  // 5. Hubungkan Form Setoran ke Database Supabase
+  const setoranForm = document.getElementById('setoranForm')
+  if (setoranForm) {
+    setoranForm.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      e.stopImmediatePropagation() // Hentikan script dummy bawaan HTML
+
+      const jumlah = Number(document.getElementById('fJumlah').value)
+      const catatan = document.getElementById('fCatatan').value.trim()
+      const setoranMsg = document.getElementById('setoranMsg')
+
+      if (!currentUser) {
+        alert('Sesi user tidak ditemukan. Silakan login ulang.')
+        return
+      }
+
+      // Kirim data setoran ke tabel 'setoran' Supabase
+      const { error } = await supabase
+        .from('setoran')
+        .insert({
+          mekanik_id: currentUser.id,
+          jumlah: jumlah,
+          catatan: catatan
+        })
+
+      if (error) {
+        alert('Gagal menyimpan setoran: ' + error.message)
+      } else {
+        setoranForm.reset()
+        setoranMsg.textContent = 'Setoran berhasil dikirim ke database!'
+        setoranMsg.classList.remove('hidden')
+        setTimeout(() => setoranMsg.classList.add('hidden'), 3000)
+      }
+    })
+  }
+
+  // Jalankan inisialisasi awal
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initAuth()
+    await loadRealMembers()
+  })
+</script>
 </html>
