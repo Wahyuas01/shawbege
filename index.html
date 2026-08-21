@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShawBege — Community Operations Hub</title>
+<title>ShawBege — Operational Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -13,15 +13,8 @@
     theme: {
       extend: {
         colors: {
-          navy: {
-            950: '#0A1220',
-            900: '#0F172A',
-            800: '#141F38',
-            700: '#1B2A4A',
-          },
-          deep: '#1E40AF',
-          accent: '#3B82F6',
-          teal: '#0EA5B7',
+          navy: { 950: '#0A1220', 900: '#0F172A', 800: '#141F38', 700: '#1B2A4A' },
+          deep: '#1E40AF', accent: '#3B82F6', teal: '#0EA5B7',
         },
         fontFamily: {
           display: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -35,335 +28,188 @@
 <style>
   html { scroll-behavior: smooth; }
   body { background:#F8FAFC; }
-
   .grid-field {
     background-image:
       linear-gradient(to right, rgba(148,163,184,0.09) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(148,163,184,0.09) 1px, transparent 1px);
     background-size: 44px 44px;
   }
-
-  .glow-node {
-    position:absolute;
-    width:6px; height:6px;
-    border-radius:9999px;
-    background:#3B82F6;
-    box-shadow: 0 0 0 4px rgba(59,130,246,0.15), 0 0 18px 2px rgba(59,130,246,0.65);
-  }
-
-  .ticker-track {
-    display:flex;
-    width:max-content;
-    animation: ticker-scroll 38s linear infinite;
-  }
-  .ticker-track:hover { animation-play-state: paused; }
-  @keyframes ticker-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  .stat-pop { opacity:0; transform: translateY(14px); animation: pop-in .7s cubic-bezier(.2,.8,.2,1) forwards; }
-  @keyframes pop-in { to { opacity:1; transform:translateY(0); } }
-
-  .card-lift { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease; }
-  .card-lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -20px rgba(15,23,42,0.25); border-color: rgba(37,99,235,0.35); }
-
-  .badge-dot { position:relative; }
-  .badge-dot::before {
-    content:''; position:absolute; inset:0; border-radius:9999px;
-    background:#22C55E; animation: pulse-ring 1.8s cubic-bezier(0,0,.2,1) infinite;
-  }
-  @keyframes pulse-ring { 0%{ transform:scale(1); opacity:.7; } 100%{ transform:scale(2.6); opacity:0; } }
-
+  .view { animation: fade-in .35s ease; }
+  @keyframes fade-in { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .navlink.active { background:rgba(59,130,246,0.12); color:#fff; border-left-color:#3B82F6; }
   ::selection { background:#3B82F6; color:#fff; }
-
-  a, button { -webkit-tap-highlight-color: transparent; }
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid #3B82F6; outline-offset: 3px; border-radius: 4px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ticker-track, .stat-pop, .badge-dot::before { animation: none !important; }
-    html { scroll-behavior: auto; }
-  }
 </style>
 </head>
 <body class="font-body text-navy-900 antialiased">
 
-<!-- ============ NAV ============ -->
-<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-    <a href="#top" class="flex items-center gap-2.5 font-display font-extrabold text-lg tracking-tight">
-      <span class="w-8 h-8 rounded-lg bg-navy-900 flex items-center justify-center">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12M5 10V20H10V15H14V20H19V10" stroke="#3B82F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      ShawBege
-    </a>
-    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-      <a href="#tentang" class="hover:text-navy-900 transition-colors">Tentang</a>
-      <a href="#statistik" class="hover:text-navy-900 transition-colors">Statistik</a>
-      <a href="#fitur" class="hover:text-navy-900 transition-colors">Fitur</a>
-      <a href="#modul" class="hover:text-navy-900 transition-colors">Modul Portal</a>
-    </nav>
-    <div class="flex items-center gap-3">
-      <a href="#akses-portal" class="hidden sm:inline-flex items-center text-sm font-semibold text-navy-900 border border-slate-300 rounded-lg px-4 py-2 hover:border-navy-900 transition-colors">
-        Access Portal
-      </a>
-      <a href="#join" class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-deep rounded-lg px-4 py-2 hover:bg-navy-900 transition-colors">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127c-.598.35-1.22.645-1.873.893a.076.076 0 0 0-.04.106c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"/></svg>
-        Join Discord
-      </a>
-    </div>
-  </div>
-</header>
-
-<!-- ============ HERO ============ -->
-<section id="top" class="relative overflow-hidden bg-navy-900 text-white">
-  <div class="absolute inset-0 grid-field"></div>
-  <div class="absolute inset-0 bg-gradient-to-b from-navy-900/20 via-navy-900/70 to-navy-900"></div>
-
-  <!-- decorative network nodes -->
-  <span class="glow-node" style="top:22%; left:12%;"></span>
-  <span class="glow-node" style="top:38%; left:82%;"></span>
-  <span class="glow-node" style="top:68%; left:20%;"></span>
-  <span class="glow-node" style="top:74%; left:70%;"></span>
-
-  <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-14 lg:pt-28 lg:pb-20">
-    <div class="max-w-3xl">
-      <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-blue-300/90 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 mb-7">
-        <span class="relative flex w-1.5 h-1.5"><span class="badge-dot absolute w-1.5 h-1.5 rounded-full bg-green-400"></span><span class="relative w-1.5 h-1.5 rounded-full bg-green-400"></span></span>
-        Sistem Operasional Live · Gudang &amp; Workshop
-      </div>
-
-      <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.08] tracking-tight">
-        Satu portal untuk<br class="hidden sm:block">
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-accent">seluruh operasional</span><br class="hidden sm:block">
-        komunitas ShawBege.
-      </h1>
-
-      <p class="mt-6 text-lg text-slate-300 leading-relaxed max-w-xl">
-        Dari data member, stok gudang, sampai rekap setoran mekanik — semuanya tercatat rapi dan bisa dipantau real-time, tanpa lagi bolak-balik cek spreadsheet dan channel Discord.
-      </p>
-
-      <div class="mt-9 flex flex-wrap items-center gap-4">
-        <a href="#join" class="inline-flex items-center gap-2 bg-white text-navy-900 font-semibold text-sm rounded-lg px-6 py-3.5 hover:bg-blue-50 transition-colors">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127c-.598.35-1.22.645-1.873.893a.076.076 0 0 0-.04.106c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"/></svg>
-          Join Discord
+  <!-- ============================================================ -->
+  <!-- 1. TAMPILAN LANDING PAGE (DITAMPILKAN JIKA BELUM LOGIN)     -->
+  <!-- ============================================================ -->
+  <div id="landing-page" class="min-h-screen flex flex-col justify-between">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-2.5 font-display font-extrabold text-lg tracking-tight">
+          <span class="w-8 h-8 rounded-lg bg-navy-900 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12M5 10V20H10V15H14V20H19V10" stroke="#3B82F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          ShawBege
         </a>
-        <a href="#" id="akses-portal" class="inline-flex items-center gap-2 border border-white/25 text-white font-semibold text-sm rounded-lg px-6 py-3.5 hover:bg-white/5 transition-colors">
-          Access Portal
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        <button id="btn-login-discord" class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-deep rounded-lg px-4 py-2 hover:bg-navy-900 transition-colors">
+          Login dengan Discord
+        </button>
       </div>
+    </header>
 
-      <p class="mt-5 text-xs text-slate-400 font-mono">Login portal internal menggunakan akun Discord — khusus member terverifikasi.</p>
-    </div>
-  </div>
-
-  <!-- ===== Signature element: live ops ticker ===== -->
-  <div class="relative border-t border-white/10 bg-navy-950/60 overflow-hidden">
-    <div class="ticker-track py-3.5 text-sm font-mono">
-      <!-- set A -->
-      <div class="flex items-center shrink-0">
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-teal shrink-0"></span>Stok Ikan Tuna <span class="text-white font-semibold">128 unit</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>Kas Gudang masuk <span class="text-white font-semibold">+Rp 450.000</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-green-400 shrink-0"></span>Setoran Mekanik — <span class="text-white font-semibold">Rizal</span> tercatat</span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-teal shrink-0"></span>Komponen Suspensi <span class="text-white font-semibold">36 unit</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>Material Kayu <span class="text-white font-semibold">stok menipis</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>Member baru terverifikasi <span class="text-white font-semibold">2 orang</span></span>
-      </div>
-      <!-- set B (duplicate for seamless loop) -->
-      <div class="flex items-center shrink-0">
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-teal shrink-0"></span>Stok Ikan Tuna <span class="text-white font-semibold">128 unit</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>Kas Gudang masuk <span class="text-white font-semibold">+Rp 450.000</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-green-400 shrink-0"></span>Setoran Mekanik — <span class="text-white font-semibold">Rizal</span> tercatat</span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-teal shrink-0"></span>Komponen Suspensi <span class="text-white font-semibold">36 unit</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>Material Kayu <span class="text-white font-semibold">stok menipis</span></span>
-        <span class="flex items-center gap-2 px-6 text-slate-300"><span class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>Member baru terverifikasi <span class="text-white font-semibold">2 orang</span></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ COMMUNITY STATS ============ -->
-<section id="statistik" class="bg-white border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
-    <div class="flex items-end justify-between flex-wrap gap-4 mb-12">
-      <div>
-        <p class="text-xs font-mono uppercase tracking-widest text-deep font-semibold">Statistik Publik</p>
-        <h2 class="font-display font-extrabold text-3xl lg:text-4xl tracking-tight mt-2">Angka yang bergerak setiap hari.</h2>
-      </div>
-      <p class="text-sm text-slate-500 max-w-sm">Diperbarui otomatis dari sistem gudang dan workshop — bukan laporan manual yang basi seminggu kemudian.</p>
-    </div>
-
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200 rounded-2xl overflow-hidden border border-slate-200">
-      <div class="stat-pop bg-white p-7" style="animation-delay:.05s">
-        <p class="font-display font-extrabold text-4xl lg:text-5xl text-navy-900">312</p>
-        <p class="mt-2 text-sm text-slate-500">Total Member Terverifikasi</p>
-      </div>
-      <div class="stat-pop bg-white p-7" style="animation-delay:.15s">
-        <p class="font-display font-extrabold text-4xl lg:text-5xl text-navy-900">1.487</p>
-        <p class="mt-2 text-sm text-slate-500">Total Transaksi Workshop</p>
-      </div>
-      <div class="stat-pop bg-white p-7" style="animation-delay:.25s">
-        <p class="font-display font-extrabold text-4xl lg:text-5xl text-navy-900">96%</p>
-        <p class="mt-2 text-sm text-slate-500">Kapasitas Gudang Terisi</p>
-      </div>
-      <div class="stat-pop bg-white p-7" style="animation-delay:.35s">
-        <p class="font-display font-extrabold text-4xl lg:text-5xl text-navy-900">24</p>
-        <p class="mt-2 text-sm text-slate-500">Mekanik Aktif Minggu Ini</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ABOUT ============ -->
-<section id="tentang" class="bg-slate-50">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-24 grid lg:grid-cols-12 gap-12 items-start">
-    <div class="lg:col-span-5">
-      <p class="text-xs font-mono uppercase tracking-widest text-deep font-semibold">Tentang ShawBege</p>
-      <h2 class="font-display font-extrabold text-3xl lg:text-4xl tracking-tight mt-3 leading-tight">
-        Dari komunitas Discord, jadi sistem operasional yang serius.
-      </h2>
-    </div>
-    <div class="lg:col-span-7 space-y-5 text-slate-600 leading-relaxed">
-      <p>
-        ShawBege lahir sebagai komunitas Discord, tapi berkembang jauh lebih besar dari sekadar tempat ngobrol. Ada gudang bersama yang menyimpan stok ikan, material, dan komponen. Ada workshop mekanik yang bekerja tiap hari dan menyetor hasilnya ke kas komunitas. Semua itu butuh pencatatan yang bisa dipercaya.
-      </p>
-      <p>
-        Portal ini dibangun untuk jadi <span class="font-semibold text-navy-900">satu sumber kebenaran</span> — pengurus gudang tidak perlu lagi merekap manual, mekanik tidak perlu lagi bolak-balik lapor lewat chat, dan member cukup login dengan akun Discord untuk melihat status keanggotaan mereka sendiri.
-      </p>
-      <div class="grid sm:grid-cols-3 gap-5 pt-4">
-        <div class="border-l-2 border-accent pl-4">
-          <p class="font-display font-bold text-navy-900">Transparan</p>
-          <p class="text-sm text-slate-500 mt-1">Data gudang & kas tercatat dengan timestamp dan penanggung jawab.</p>
-        </div>
-        <div class="border-l-2 border-accent pl-4">
-          <p class="font-display font-bold text-navy-900">Terverifikasi</p>
-          <p class="text-sm text-slate-500 mt-1">Login lewat Discord OAuth2, akses sesuai role komunitas.</p>
-        </div>
-        <div class="border-l-2 border-accent pl-4">
-          <p class="font-display font-bold text-navy-900">Real-time</p>
-          <p class="text-sm text-slate-500 mt-1">Perubahan stok dan setoran langsung terlihat, bukan laporan mingguan.</p>
+    <section class="relative overflow-hidden bg-navy-900 text-white py-24 flex-1 flex items-center">
+      <div class="absolute inset-0 grid-field"></div>
+      <div class="relative max-w-7xl mx-auto px-6 lg:px-10 text-center">
+        <h1 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight leading-tight">
+          Satu Portal Operasional<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-accent">Komunitas ShawBege</span>
+        </h1>
+        <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
+          Kelola data keanggotaan, stok barang gudang, dan rekap setoran workshop secara real-time.
+        </p>
+        <div class="mt-8">
+          <button id="btn-hero-login" class="bg-accent hover:bg-blue-600 text-white font-semibold text-base px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-accent/20">
+            Akses Portal Internal
+          </button>
         </div>
       </div>
-    </div>
+    </section>
+
+    <footer class="bg-navy-950 text-slate-400 py-6 border-t border-white/10 text-center text-xs">
+      &copy; 2026 ShawBege Community Operations.
+    </footer>
   </div>
-</section>
 
-<!-- ============ FEATURE OVERVIEW / MODULES ============ -->
-<section id="fitur" class="bg-white">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-24">
-    <div class="max-w-2xl mb-14">
-      <p class="text-xs font-mono uppercase tracking-widest text-deep font-semibold">Sistem Terintegrasi</p>
-      <h2 class="font-display font-extrabold text-3xl lg:text-4xl tracking-tight mt-3">Tiga modul, satu portal.</h2>
-      <p class="mt-4 text-slate-600 leading-relaxed">Setiap bagian operasional komunitas punya ruang kerjanya sendiri — tapi tetap saling terhubung lewat satu database.</p>
-    </div>
-
-    <div id="modul" class="grid md:grid-cols-3 gap-6">
-
-      <!-- Member Directory -->
-      <div class="card-lift group border border-slate-200 rounded-2xl p-7 bg-white">
-        <div class="w-11 h-11 rounded-xl bg-navy-900 flex items-center justify-center mb-6">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-lg text-navy-900">Member Directory</h3>
-        <p class="mt-2.5 text-sm text-slate-500 leading-relaxed">Database member terverifikasi lengkap dengan ID Discord, role, dan status keaktifan.</p>
-        <ul class="mt-5 space-y-2.5 text-sm text-slate-600">
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Profil ID Discord & tanggal bergabung</li>
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Status Active / Inactive</li>
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Pencarian & filter per role</li>
-        </ul>
+  <!-- ============================================================ -->
+  <!-- 2. TAMPILAN PORTAL INTERNAL (DITAMPILKAN JIKA SUDAH LOGIN)   -->
+  <!-- ============================================================ -->
+  <div id="portal-page" class="min-h-screen flex hidden">
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-900 text-slate-300 h-screen sticky top-0">
+      <div class="h-16 flex items-center gap-2.5 px-6 border-b border-white/10 font-display font-extrabold text-white">
+        <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12M5 10V20H10V15H14V20H19V10" stroke="#3B82F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        ShawBege
       </div>
 
-      <!-- Warehouse Management -->
-      <div class="card-lift group border border-slate-200 rounded-2xl p-7 bg-white ring-1 ring-transparent">
-        <div class="w-11 h-11 rounded-xl bg-navy-900 flex items-center justify-center mb-6">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+      <nav class="flex-1 py-6 px-3 space-y-1 text-sm font-medium">
+        <button data-target="overview" class="navlink active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Overview</button>
+        <button data-target="member" class="navlink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Member Directory</button>
+        <button data-target="warehouse" class="navlink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Warehouse</button>
+        <button data-target="workshop" class="navlink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Workshop Center</button>
+      </nav>
+
+      <div class="p-4 border-t border-white/10">
+        <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3">
+          <div id="userAvatar" class="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-teal flex items-center justify-center font-display font-bold text-white text-sm shrink-0">SB</div>
+          <div class="min-w-0">
+            <p id="userName" class="text-sm font-semibold text-white truncate">Memuat...</p>
+            <p id="userRole" class="text-xs text-slate-400 truncate">Member</p>
+          </div>
         </div>
-        <h3 class="font-display font-bold text-lg text-navy-900">Warehouse Management</h3>
-        <p class="mt-2.5 text-sm text-slate-500 leading-relaxed">Pantau stok ikan, material, komponen, dan arus kas gudang dalam satu tampilan.</p>
-        <ul class="mt-5 space-y-2.5 text-sm text-slate-600">
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Tracker ikan, material & komponen</li>
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Saldo kas masuk & keluar</li>
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Log transaksi dengan timestamp</li>
-        </ul>
       </div>
+    </aside>
 
-      <!-- Workshop Center -->
-      <div class="card-lift group border border-slate-200 rounded-2xl p-7 bg-white">
-        <div class="w-11 h-11 rounded-xl bg-navy-900 flex items-center justify-center mb-6">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        </div>
-        <h3 class="font-display font-bold text-lg text-navy-900">Workshop Center</h3>
-        <p class="mt-2.5 text-sm text-slate-500 leading-relaxed">Operasional mekanik: stok komponen, rekap setoran, dan log pekerjaan servis.</p>
-        <ul class="mt-5 space-y-2.5 text-sm text-slate-600">
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Inventaris komponen mekanik</li>
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Rekap setoran harian/mingguan</li>
-          <li class="flex gap-2.5"><svg class="shrink-0 mt-0.5" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Log servis & pemasangan komponen</li>
-        </ul>
-      </div>
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 min-w-0">
+      <header class="sticky top-0 z-30 h-16 bg-white/85 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 lg:px-8">
+        <span id="crumb" class="text-slate-400 font-mono text-xs uppercase tracking-widest">Portal Internal</span>
+        <button id="btnLogout" class="text-sm font-semibold text-slate-500 hover:text-navy-900 transition-colors">Keluar</button>
+      </header>
 
+      <main class="p-5 lg:p-8 max-w-7xl mx-auto">
+        <section id="view-overview" class="view">
+          <h1 id="welcomeText" class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Halo... 👋</h1>
+          <p class="text-slate-500 mt-1.5">Ringkasan operasional komunitas ShawBege hari ini.</p>
+        </section>
+
+        <section id="view-member" class="view hidden">
+          <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Member Directory</h1>
+        </section>
+
+        <section id="view-warehouse" class="view hidden">
+          <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Warehouse Management</h1>
+        </section>
+
+        <section id="view-workshop" class="view hidden">
+          <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Workshop Center</h1>
+        </section>
+      </main>
     </div>
   </div>
-</section>
 
-<!-- ============ JOIN CTA ============ -->
-<section id="join" class="relative overflow-hidden bg-navy-900">
-  <div class="absolute inset-0 grid-field opacity-60"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-navy-900 via-navy-900/95 to-navy-950"></div>
-  <div class="relative max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-8">
-    <div class="max-w-xl text-center lg:text-left">
-      <h2 class="font-display font-extrabold text-3xl lg:text-4xl tracking-tight text-white">Gabung dulu ke Discord, aksesnya menyusul.</h2>
-      <p class="mt-4 text-slate-300">Portal internal hanya bisa diakses oleh member yang sudah bergabung dan terverifikasi lewat server Discord ShawBege.</p>
-    </div>
-    <div class="flex flex-col sm:flex-row gap-4 shrink-0">
-      <a href="#" class="inline-flex items-center justify-center gap-2 bg-accent text-white font-semibold text-sm rounded-lg px-6 py-3.5 hover:bg-blue-600 transition-colors">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127c-.598.35-1.22.645-1.873.893a.076.076 0 0 0-.04.106c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"/></svg>
-        Join Discord
-      </a>
-      <a href="#" class="inline-flex items-center justify-center gap-2 border border-white/25 text-white font-semibold text-sm rounded-lg px-6 py-3.5 hover:bg-white/5 transition-colors">
-        Login dengan Discord
-      </a>
-    </div>
-  </div>
-</section>
+  <!-- ============================================================ -->
+  <!-- 3. SCRIPT SINGLE PAGE (Satu Tempat, Bebas Mental)           -->
+  <!-- ============================================================ -->
+  <script type="module">
+    import { supabase } from './lib/supabase.js';
 
-<!-- ============ FOOTER ============ -->
-<footer class="bg-navy-950 text-slate-400">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-    <div class="flex items-center gap-2.5 font-display font-bold text-white">
-      <span class="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12M5 10V20H10V15H14V20H19V10" stroke="#3B82F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      ShawBege
-    </div>
-    <p class="text-xs font-mono text-center">Member Data · Warehouse · Workshop — dibangun untuk operasional komunitas, bukan sekadar profil.</p>
-    <p class="text-xs">&copy; 2026 ShawBege Community.</p>
-  </div>
-</footer>
-<script type="module">
-  import { loginWithDiscord } from './lib/auth.js';
+    const landingPage = document.getElementById('landing-page');
+    const portalPage = document.getElementById('portal-page');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('akses-portal') || document.querySelector('.nav-btn');
-    
-    if (btn) {
-      btn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        console.log('Tombol diklik!');
-        await loginWithDiscord();
+    // MINTA DISCORD LOGIN
+    async function loginWithDiscord() {
+      await supabase.auth.signInWithOAuth({
+        provider: 'discord',
+        options: {
+          redirectTo: window.location.origin
+        }
       });
-    } else {
-      console.error('Tombol tidak ditemukan!');
     }
-  });
-</script>
-  // kalau tombol Join Discord mau dipakai juga:
-  // document.getElementById('btn-join-discord').addEventListener('click', async (e) => {
-  //   e.preventDefault()
-  //   await loginWithDiscord()
-  // })
-</script>
+
+    // TAMPILAN MANAGEMENT
+    function renderApp(session) {
+      if (session) {
+        landingPage.classList.add('hidden');
+        portalPage.classList.remove('hidden');
+
+        if (window.location.hash) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        const discordName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Member';
+        document.getElementById('userName').textContent = discordName;
+        document.getElementById('welcomeText').textContent = `Halo, ${discordName} 👋`;
+        document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
+      } else {
+        landingPage.classList.remove('hidden');
+        portalPage.classList.add('hidden');
+      }
+    }
+
+    // CHECK SESI
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      renderApp(session);
+
+      supabase.auth.onAuthStateChange((_event, session) => {
+        renderApp(session);
+      });
+    }
+
+    // NAVIGASI TAB
+    document.querySelectorAll('.navlink').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+        document.getElementById('view-' + target)?.classList.remove('hidden');
+        document.querySelectorAll('.navlink').forEach(b => b.classList.toggle('active', b === btn));
+      });
+    });
+
+    // EVENT LISTENERS
+    document.getElementById('btn-login-discord')?.addEventListener('click', loginWithDiscord);
+    document.getElementById('btn-hero-login')?.addEventListener('click', loginWithDiscord);
+    document.getElementById('btnLogout')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      renderApp(null);
+    });
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
