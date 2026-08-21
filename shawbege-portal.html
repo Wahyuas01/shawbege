@@ -130,55 +130,85 @@
     </main>
   </div>
 </div>
-
+</body>
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-  // NAVIGASI UI
+  // NAVIGASI TAB & SIDEBAR UI
   const crumbMap = { overview:'Overview', member:'Member Directory', warehouse:'Warehouse', workshop:'Workshop Center' };
+  
   document.querySelectorAll('.navlink, .navshortcut').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.target;
       document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
       document.getElementById('view-' + target)?.classList.remove('hidden');
       document.querySelectorAll('.navlink').forEach(b => b.classList.toggle('active', b.dataset.target === target));
-      document.getElementById('crumb').textContent = crumbMap[target] || 'Portal Internal';
+      const crumb = document.getElementById('crumb');
+      if (crumb) crumb.textContent = crumbMap[target] || 'Portal Internal';
     });
   });
 
-  // AUTENTIKASI SINGLE-ENTRY
-  async function initAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
+  document.querySelectorAll('.subtab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.subtab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.subview').forEach(v => v.classList.add('hidden'));
+      document.getElementById('sub-' + tab.dataset.sub)?.classList.remove('hidden');
+    });
+  });
 
-    if (!session && !window.location.hash.includes('access_token')) {
-      window.location.href = '/index.html';
-      return;
+  // AUTENTIKASI SUPABASE (TANPA REDIRECT PAKSA/MENTAL)
+  async function initAuth() {
+    console.log("Memulai Autentikasi...");
+
+    // Cek jika ada token dari Discord
+    const hasToken = window.location.hash.includes('access_token');
+
+    // Mencegah mental: Jika ada token, TUNGGU Supabase selesai membaca tokennya
+    if (hasToken) {
+      console.log("Token OAuth Discord terdeteksi di URL, memproses...");
     }
 
-    supabase.auth.onAuthStateChange(async (event, currentSession) => {
-      if (currentSession) {
+    // Dengarkan perubahan status auth
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth Event:", event, session);
+
+      if (session) {
+        // Bersihkan token panjang dari URL Vercel
         if (window.location.hash) {
           window.history.replaceState({}, document.title, window.location.pathname);
         }
-        
-        const user = currentSession.user;
+
+        const user = session.user;
         const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member';
 
-        document.querySelector('aside .truncate').textContent = discordName;
-        document.querySelector('#view-overview h1').textContent = `Halo, ${discordName} 👋`;
-        document.querySelector('aside .font-display.font-bold').textContent = discordName.substring(0, 2).toUpperCase();
-      } else if (event === 'SIGNED_OUT') {
+        // Update UI Profil Sesuai Akun Discord Login
+        const nameEl = document.querySelector('aside .truncate');
+        const roleEl = document.querySelectorAll('aside .truncate')[1];
+        const avatarEl = document.querySelector('aside .font-display.font-bold');
+        const welcomeEl = document.querySelector('#view-overview h1');
+
+        if (nameEl) nameEl.textContent = discordName;
+        if (roleEl) roleEl.textContent = 'Member';
+        if (avatarEl) avatarEl.textContent = discordName.substring(0, 2).toUpperCase();
+        if (welcomeEl) welcomeEl.textContent = `Halo, ${discordName} 👋`;
+
+      } else if (event === 'SIGNED_OUT' || (!session && !hasToken)) {
+        // HANYA redirect jika BENAR-BENAR tidak ada sesi & tidak sedang membawa token
+        console.warn("Tidak ada sesi, mengalihkan ke index.html");
         window.location.href = '/index.html';
       }
     });
   }
 
-  document.getElementById('btnLogout')?.addEventListener('click', async () => {
+  // LOGOUT
+  document.querySelector('header a[href="#"]')?.addEventListener('click', async (e) => {
+    e.preventDefault();
     await supabase.auth.signOut();
     window.location.href = '/index.html';
   });
 
+  // Jalankan saat DOM Siap
   document.addEventListener('DOMContentLoaded', initAuth);
 </script>
-</body>
 </html>
