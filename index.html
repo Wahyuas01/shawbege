@@ -3,201 +3,352 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShawBege — Operational Hub</title>
+<title>ShawBege Community Web Portal</title>
+
+<!-- Typography: Plus Jakarta Sans & Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
     theme: {
       extend: {
         colors: {
-          navy: { 950: '#0A1220', 900: '#0F172A', 800: '#141F38', 700: '#1B2A4A' },
-          deep: '#1E40AF', accent: '#3B82F6', teal: '#0EA5B7',
+          navy: { 950: '#0A0F1C', 900: '#0F172A', 800: '#1E293B' },
+          boldblue: '#2563EB',
+          accent: '#3B82F6',
+          bglight: '#F8FAFC'
         },
         fontFamily: {
           display: ['"Plus Jakarta Sans"', 'sans-serif'],
           body: ['Inter', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'monospace'],
         },
       },
     },
   }
 </script>
+
 <style>
-  body { background:#F8FAFC; }
-  .grid-field {
-    background-image:
-      linear-gradient(to right, rgba(148,163,184,0.09) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(148,163,184,0.09) 1px, transparent 1px);
-    background-size: 44px 44px;
-  }
-  .view-page { display: none; }
-  .view-page.active { display: block; }
-  .navlink.active { background:rgba(59,130,246,0.12); color:#fff; border-left-color:#3B82F6; }
+  body { background-color: #F8FAFC; color: #0F172A; }
+  .view-route { display: none; }
+  .view-route.active { display: flex; animation: fadeIn 0.4s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  /* Sidebar Navigation */
+  .nav-item.active { background-color: rgba(37, 99, 235, 0.1); color: #2563EB; border-left: 3px solid #2563EB; }
+  .nav-item { border-left: 3px solid transparent; }
+  
+  /* Background Pattern */
+  .bg-grid { background-image: radial-gradient(rgba(15, 23, 42, 0.1) 1px, transparent 1px); background-size: 24px 24px; }
 </style>
 </head>
-<body class="font-body text-navy-900 antialiased">
+<body class="font-body antialiased selection:bg-boldblue selection:text-white">
 
-  <!-- ========================================== -->
-  <!-- HALAMAN 1: LANDING PAGE (URL: /)           -->
-  <!-- ========================================== -->
-  <div id="page-landing" class="view-page min-h-screen flex flex-col justify-between">
+  <!-- ========================================================================= -->
+  <!-- ROUTE: PUBLIC LANDING PAGE (/ atau /home)                                 -->
+  <!-- ========================================================================= -->
+  <div id="route-home" class="view-route flex-col min-h-screen">
+    
+    <!-- Navbar -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <span class="font-display font-extrabold text-lg">ShawBege</span>
-        <button class="btn-discord-login text-sm font-semibold text-white bg-deep rounded-lg px-4 py-2 hover:bg-navy-900">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-navy-900 flex items-center justify-center text-white font-display font-bold">SB</div>
+          <span class="font-display font-extrabold text-lg tracking-tight text-navy-900">ShawBege</span>
+        </div>
+        <button class="btn-login inline-flex items-center gap-2 text-sm font-semibold text-white bg-navy-900 rounded-lg px-5 py-2.5 hover:bg-boldblue transition-all shadow-md">
           Login Discord
         </button>
       </div>
     </header>
 
-    <section class="relative overflow-hidden bg-navy-900 text-white py-24 flex-1 flex items-center">
-      <div class="absolute inset-0 grid-field"></div>
-      <div class="relative max-w-7xl mx-auto px-6 text-center">
-        <h1 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight">
-          Operational Hub <span class="text-accent">ShawBege</span>
+    <!-- Hero Section -->
+    <section class="relative bg-navy-900 text-white pt-24 pb-32 flex-1 flex flex-col justify-center overflow-hidden">
+      <div class="absolute inset-0 bg-grid opacity-20"></div>
+      <div class="relative max-w-5xl mx-auto px-6 text-center">
+        <h1 class="font-display font-extrabold text-5xl md:text-6xl tracking-tight leading-tight">
+          Satu Hub Operasional Terpusat <br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-300">Komunitas ShawBege</span>
         </h1>
-        <p class="mt-4 text-slate-300 max-w-xl mx-auto">Satu tempat untuk memantau data member, stok gudang, dan rekap workshop.</p>
-        <button class="btn-discord-login mt-8 bg-accent text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg">
-          Akses Portal
-        </button>
+        <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto font-medium">
+          Platform eksklusif untuk mengelola database keanggotaan, inventaris gudang bersama, dan operasional workshop mekanik secara real-time dan profesional.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <button class="btn-login bg-boldblue hover:bg-blue-700 text-white font-semibold text-base px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-boldblue/30">
+            Access Portal
+          </button>
+          <a href="#" class="bg-white/10 hover:bg-white/20 text-white font-semibold text-base px-8 py-3.5 rounded-xl transition-all backdrop-blur-sm">
+            Join Discord
+          </a>
+        </div>
       </div>
     </section>
 
-    <footer class="bg-navy-950 text-slate-400 py-6 text-center text-xs">
-      &copy; 2026 ShawBege Community Operations.
+    <!-- Live Statistics & Features -->
+    <section class="py-20 bg-bglight">
+      <div class="max-w-7xl mx-auto px-6">
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 -mt-32 relative z-10 mb-20">
+          <div class="bg-white p-6 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 text-center">
+            <h3 class="text-4xl font-display font-extrabold text-navy-900">120+</h3>
+            <p class="text-sm font-medium text-slate-500 mt-1">Verified Members</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 text-center">
+            <h3 class="text-4xl font-display font-extrabold text-boldblue">8.5K</h3>
+            <p class="text-sm font-medium text-slate-500 mt-1">Warehouse Items Tracker</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 text-center">
+            <h3 class="text-4xl font-display font-extrabold text-navy-900">450+</h3>
+            <p class="text-sm font-medium text-slate-500 mt-1">Workshop Transactions</p>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="text-center mb-12">
+          <h2 class="font-display font-extrabold text-3xl text-navy-900">Modul Terintegrasi</h2>
+          <p class="text-slate-500 mt-2">Desain sistem transparan untuk seluruh anggota.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div class="w-12 h-12 bg-blue-50 text-boldblue rounded-xl flex items-center justify-center mb-6">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-navy-900 mb-2">Member Directory</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Database terpusat untuk profil anggota, status keaktifan, dan role komunitas.</p>
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div class="w-12 h-12 bg-blue-50 text-boldblue rounded-xl flex items-center justify-center mb-6">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-navy-900 mb-2">Warehouse</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Pencatatan real-time stok ikan, material, komponen, dan saldo kas gudang.</p>
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div class="w-12 h-12 bg-blue-50 text-boldblue rounded-xl flex items-center justify-center mb-6">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-navy-900 mb-2">Workshop Center</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Log pekerjaan mekanik, stok komponen khusus servis, dan rekap setoran kas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-navy-950 py-8 text-center border-t border-navy-800">
+      <p class="text-slate-400 text-sm">&copy; 2026 ShawBege Community. All rights reserved.</p>
     </footer>
   </div>
 
-  <!-- ========================================== -->
-  <!-- HALAMAN 2: PORTAL INTERNAL (URL: /portal)  -->
-  <!-- ========================================== -->
-  <div id="page-portal" class="view-page min-h-screen flex">
-    <!-- SIDEBAR -->
-    <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-900 text-slate-300 h-screen sticky top-0">
-      <div class="h-16 flex items-center gap-2.5 px-6 border-b border-white/10 font-display font-extrabold text-white">
-        ShawBege
+
+  <!-- ========================================================================= -->
+  <!-- ROUTE: PRIVATE PORTAL (/panel)                                            -->
+  <!-- ========================================================================= -->
+  <div id="route-panel" class="view-route w-full min-h-screen bg-bglight">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen shrink-0">
+      <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-200">
+        <div class="w-8 h-8 rounded-lg bg-navy-900 flex items-center justify-center text-white font-display font-bold text-sm">SB</div>
+        <span class="font-display font-extrabold text-lg tracking-tight text-navy-900">ShawBege</span>
       </div>
-      <nav class="flex-1 py-6 px-3 space-y-1 text-sm font-medium">
-        <button data-tab="overview" class="tablink active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Overview</button>
-        <button data-tab="member" class="tablink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Member Directory</button>
-        <button data-tab="warehouse" class="tablink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Warehouse</button>
-        <button data-tab="workshop" class="tablink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Workshop Center</button>
+
+      <nav class="flex-1 py-6 px-3 space-y-1.5">
+        <button data-tab="overview" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors text-left">Overview</button>
+        <button data-tab="member" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors text-left">Member Directory</button>
+        <button data-tab="warehouse" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors text-left">Warehouse</button>
+        <button data-tab="workshop" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors text-left">Workshop Center</button>
       </nav>
 
-      <div class="p-4 border-t border-white/10">
-        <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3">
-          <div id="userAvatar" class="w-9 h-9 rounded-full bg-accent flex items-center justify-center font-bold text-white text-sm">SB</div>
+      <div class="p-4 border-t border-slate-200">
+        <div class="flex items-center gap-3">
+          <div id="userAvatar" class="w-10 h-10 rounded-full bg-boldblue text-white flex items-center justify-center font-display font-bold text-sm">SB</div>
           <div class="min-w-0">
-            <p id="userName" class="text-sm font-semibold text-white truncate">Memuat...</p>
-            <p class="text-xs text-slate-400">Member</p>
+            <p id="userName" class="text-sm font-bold text-navy-900 truncate">Memuat...</p>
+            <p class="text-xs font-medium text-slate-500">Verified Member</p>
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- KONTEN PORTAL -->
-    <div class="flex-1 min-w-0">
-      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
-        <span class="text-slate-400 font-mono text-xs uppercase">Portal Internal</span>
-        <button id="btnLogout" class="text-sm font-semibold text-slate-500 hover:text-navy-900">Keluar</button>
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0">
+      <!-- Top Header -->
+      <header class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-30">
+        <h2 id="pageTitle" class="font-display font-bold text-lg text-navy-900">Overview</h2>
+        <button id="btnLogout" class="text-sm font-semibold text-slate-500 hover:text-red-600 transition-colors">Logout Account</button>
       </header>
 
-      <main class="p-8 max-w-7xl mx-auto">
-        <section id="tab-overview" class="tabview">
-          <h1 id="welcomeText" class="font-display font-extrabold text-3xl">Halo... 👋</h1>
-          <p class="text-slate-500 mt-1">Selamat datang di portal internal ShawBege.</p>
+      <!-- Content Area -->
+      <div class="p-8 max-w-6xl mx-auto w-full flex-1">
+        
+        <!-- Tab: Overview -->
+        <section id="tab-overview" class="view-panel block">
+          <h1 id="welcomeText" class="font-display font-extrabold text-3xl text-navy-900">Selamat datang, 👋</h1>
+          <p class="text-slate-500 mt-2 text-sm">Berikut adalah ringkasan operasional komunitas hari ini.</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <h3 class="font-bold text-navy-900">Status Kas Gudang</h3>
+              <p class="text-3xl font-display font-extrabold text-boldblue mt-2">$ 45,200</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <h3 class="font-bold text-navy-900">Setoran Mekanik Hari Ini</h3>
+              <p class="text-3xl font-display font-extrabold text-emerald-600 mt-2">12 Log</p>
+            </div>
+          </div>
         </section>
 
-        <section id="tab-member" class="tabview hidden">
-          <h1 class="font-display font-extrabold text-3xl">Member Directory</h1>
+        <!-- Tab: Member -->
+        <section id="tab-member" class="view-panel hidden">
+          <h1 class="font-display font-extrabold text-3xl text-navy-900 mb-6">Member Directory</h1>
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-4 border-b border-slate-200 bg-slate-50">
+              <input type="text" placeholder="Cari member berdasarkan nama atau role..." class="w-full max-w-md px-4 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-boldblue">
+            </div>
+            <table class="w-full text-left text-sm">
+              <thead class="bg-white border-b border-slate-200 text-slate-500">
+                <tr><th class="px-6 py-4 font-medium">Nama / Discord ID</th><th class="px-6 py-4 font-medium">Role</th><th class="px-6 py-4 font-medium">Status</th></tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr><td class="px-6 py-4 font-medium text-navy-900">Wahyuas01</td><td class="px-6 py-4 text-slate-600">Pengurus Gudang</td><td class="px-6 py-4"><span class="px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">Active</span></td></tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
-        <section id="tab-warehouse" class="tabview hidden">
-          <h1 class="font-display font-extrabold text-3xl">Warehouse Management</h1>
+        <!-- Tab: Warehouse -->
+        <section id="tab-warehouse" class="view-panel hidden">
+          <h1 class="font-display font-extrabold text-3xl text-navy-900 mb-6">Warehouse Management</h1>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><p class="text-sm text-slate-500">Stok Ikan</p><p class="text-2xl font-bold text-navy-900 mt-1">1,204</p></div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><p class="text-sm text-slate-500">Material</p><p class="text-2xl font-bold text-navy-900 mt-1">8,430</p></div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><p class="text-sm text-slate-500">Komponen</p><p class="text-2xl font-bold text-navy-900 mt-1">450</p></div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><p class="text-sm text-slate-500">Kas Tunai</p><p class="text-2xl font-bold text-emerald-600 mt-1">$45K</p></div>
+          </div>
         </section>
 
-        <section id="tab-workshop" class="tabview hidden">
-          <h1 class="font-display font-extrabold text-3xl">Workshop Center</h1>
+        <!-- Tab: Workshop -->
+        <section id="tab-workshop" class="view-panel hidden">
+          <h1 class="font-display font-extrabold text-3xl text-navy-900 mb-6">Workshop Center</h1>
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-6 flex justify-between items-center">
+            <div>
+              <h3 class="font-bold text-navy-900 text-lg">Input Log Servis / Setoran</h3>
+              <p class="text-sm text-slate-500 mt-1">Catat pekerjaan pemasangan komponen dan uang kas masuk.</p>
+            </div>
+            <button class="bg-boldblue text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700">Tambah Log Baru</button>
+          </div>
         </section>
-      </main>
-    </div>
+
+      </div>
+    </main>
   </div>
 
-  <!-- ========================================== -->
-  <!-- ROUTER JAVASCRIPT                          -->
-  <!-- ========================================== -->
+  <!-- ========================================================================= -->
+  <!-- SINGLE PAGE APP JAVASCRIPT LOGIC                                          -->
+  <!-- ========================================================================= -->
   <script type="module">
     import { supabase } from './lib/supabase.js';
 
-    // 1. ROUTER UTAMA (PENGATUR HALAMAN)
-    async function routeManager(session) {
+    // 1. ROUTER LOGIC
+    function handleRouting(session) {
       const path = window.location.pathname;
+      const homeView = document.getElementById('route-home');
+      const panelView = document.getElementById('route-panel');
 
-      // Sembunyikan semua halaman
-      document.querySelectorAll('.view-page').forEach(page => page.classList.remove('active'));
+      // Reset view
+      homeView.classList.remove('active');
+      panelView.classList.remove('active');
 
       if (session) {
-        // Jika User Login -> Tampilkan Halaman Portal
-        document.getElementById('page-portal').classList.add('active');
-        if (path !== '/portal') window.history.pushState({}, '', '/portal');
-
-        // Render Data Profil Discord
-        const discordName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Member';
-        document.getElementById('userName').textContent = discordName;
-        document.getElementById('welcomeText').textContent = `Halo, ${discordName} 👋`;
-        document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
-
+        // JIKA SUDAH LOGIN
+        panelView.classList.add('active'); // Tampilkan Panel
+        if (path === '/' || path === '/home') {
+          window.history.replaceState({}, '', '/panel'); // Paksa URL ke /panel
+        }
+        populateUserData(session.user);
       } else {
-        // Jika Belum Login -> Tampilkan Landing Page
-        document.getElementById('page-landing').classList.add('active');
-        if (path !== '/') window.history.pushState({}, '', '/');
+        // JIKA BELUM LOGIN
+        homeView.classList.add('active'); // Tampilkan Landing Page
+        if (path === '/panel') {
+          window.history.replaceState({}, '', '/'); // Paksa URL ke /
+        }
       }
     }
 
-    // 2. INI FUNGSI LOGIN DISCORD
+    // 2. RENDER USER DATA
+    function populateUserData(user) {
+      const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member';
+      document.getElementById('userName').textContent = discordName;
+      document.getElementById('welcomeText').textContent = `Selamat datang, ${discordName} 👋`;
+      document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
+    }
+
+    // 3. TAB NAVIGATION DI PANEL
+    const tabTitles = { overview: 'Overview', member: 'Member Directory', warehouse: 'Warehouse Management', workshop: 'Workshop Center' };
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        
+        // Ganti Tab Konten
+        document.querySelectorAll('.view-panel').forEach(v => v.classList.add('hidden'));
+        document.getElementById('tab-' + target)?.classList.remove('hidden', 'block');
+        document.getElementById('tab-' + target)?.classList.add('block');
+        
+        // Ganti Status Tombol
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update Header Title
+        document.getElementById('pageTitle').textContent = tabTitles[target];
+      });
+    });
+
+    // 4. AUTHENTICATION FUNCTIONS
     async function loginWithDiscord() {
       await supabase.auth.signInWithOAuth({
         provider: 'discord',
         options: {
-          redirectTo: window.location.origin
+          redirectTo: window.location.origin // Kembali ke root domain
         }
       });
     }
 
-    // 3. EVENT LISTENERS
-    document.querySelectorAll('.btn-discord-login').forEach(btn => {
+    document.querySelectorAll('.btn-login').forEach(btn => {
       btn.addEventListener('click', loginWithDiscord);
     });
 
     document.getElementById('btnLogout')?.addEventListener('click', async () => {
       await supabase.auth.signOut();
-      routeManager(null);
+      handleRouting(null);
     });
 
-    // NAVIGASI TAB SIDEBAR PORTAL
-    document.querySelectorAll('.tablink').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.tab;
-        document.querySelectorAll('.tabview').forEach(v => v.classList.add('hidden'));
-        document.getElementById('tab-' + target)?.classList.remove('hidden');
-        document.querySelectorAll('.tablink').forEach(b => b.classList.toggle('active', b === btn));
-      });
-    });
+    // 5. INITIALIZATION
+    async function initSPA() {
+      // Tunggu sebentar jika URL membawa token dari Discord
+      if (window.location.hash.includes('access_token')) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
 
-    // INITIALIZATION
-    async function init() {
+      // Ambil Sesi saat ini
       const { data: { session } } = await supabase.auth.getSession();
-      routeManager(session);
+      handleRouting(session);
 
-      supabase.auth.onAuthStateChange((_event, session) => {
-        routeManager(session);
+      // Dengarkan perubahan login/logout realtime
+      supabase.auth.onAuthStateChange((_event, newSession) => {
+        handleRouting(newSession);
       });
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    // Jalankan sistem Router jika tombol Back/Forward browser ditekan
+    window.addEventListener('popstate', async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      handleRouting(session);
+    });
+
+    document.addEventListener('DOMContentLoaded', initSPA);
   </script>
 </body>
 </html>
