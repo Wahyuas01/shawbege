@@ -464,6 +464,46 @@
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
+async function initAuth() {
+  // Jika URL membawa token OAuth Discord, biarkan Supabase memprosesnya
+  if (window.location.hash.includes('access_token')) {
+    // Beri waktu Supabase menyimpan sesi ke localStorage
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      window.history.replaceState({}, document.title, window.location.pathname)
+      setupPortal(session.user)
+      return
+    }
+  }
+
+  // Cek sesi normal
+  const { data: { session } } = await supabase.auth.getSession()
+
+  if (!session) {
+    // Hanya redirect jika BENAR-BENAR tidak ada sesi & tidak ada token di URL
+    window.location.href = '/index.html'
+    return
+  }
+
+  setupPortal(session.user)
+}
+
+function setupPortal(user) {
+  const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member'
+  
+  const nameEl = document.querySelector('aside .truncate')
+  const roleEl = document.querySelectorAll('aside .truncate')[1]
+  const avatarEl = document.querySelector('aside .font-display.font-bold')
+  const welcomeEl = document.querySelector('#view-overview h1')
+
+  if (nameEl) nameEl.textContent = discordName
+  if (roleEl) roleEl.textContent = 'Member'
+  if (avatarEl) avatarEl.textContent = discordName.substring(0, 2).toUpperCase()
+  if (welcomeEl) welcomeEl.textContent = `Halo, ${discordName} 👋`
+}
+
+document.addEventListener('DOMContentLoaded', initAuth)
+
   let currentUser = null;
 
   // ==========================================
