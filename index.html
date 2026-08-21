@@ -106,7 +106,7 @@
       <a href="#modul" class="hover:text-navy-900 transition-colors">Modul Portal</a>
     </nav>
     <div class="flex items-center gap-3">
-      <a href="shawbege-portal.html" class="hidden sm:inline-flex items-center text-sm font-semibold text-navy-900 border border-slate-300 rounded-lg px-4 py-2 hover:border-navy-900 transition-colors">
+      <a href="#akses-portal" class="hidden sm:inline-flex items-center text-sm font-semibold text-navy-900 border border-slate-300 rounded-lg px-4 py-2 hover:border-navy-900 transition-colors">
         Access Portal
       </a>
       <a href="#join" class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-deep rounded-lg px-4 py-2 hover:bg-navy-900 transition-colors">
@@ -342,6 +342,19 @@
     <p class="text-xs">&copy; 2026 ShawBege Community.</p>
   </div>
 </footer>
+<script type="module">
+  import { loginWithDiscord } from 'shawbege-portal-auth.js'
 
+  document.getElementById('akses-portal').addEventListener('click', async (e) => {
+    e.preventDefault() // biar href="#" gak loncat ke atas
+    await loginWithDiscord()
+  })
+
+  // kalau tombol Join Discord mau dipakai juga:
+  // document.getElementById('btn-join-discord').addEventListener('click', async (e) => {
+  //   e.preventDefault()
+  //   await loginWithDiscord()
+  // })
+</script>
 </body>
 </html>
