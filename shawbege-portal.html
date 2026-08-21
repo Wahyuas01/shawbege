@@ -605,5 +605,14 @@
     await initAuth()
     await loadRealMembers()
   })
+import { supabase } from './lib/supabase.js'
+
+// Supabase otomatis menangkap hash token di URL dan menyimpannya ke session
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    // Bersihkan hash token dari URL agar terlihat rapi
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+});
 </script>
 </html>
