@@ -464,70 +464,65 @@
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-  // Variabel penampung profil
-  let currentUser = null
+  async function handleAuth() {
+    // 1. Ambil sesi login dari Supabase
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
-  async function checkAndInitAuth() {
-    // 1. Ambil sesi saat ini
-    let { data: { session } } = await supabase.auth.getSession()
-
-    // 2. Jika sesi belum ada di storage, tunggu sebentar untuk membiarkan Supabase 
-    //    memproses hash token OAuth2 dari URL Discord
-    if (!session && window.location.hash.includes('access_token')) {
-      const { data } = await supabase.auth.getUser()
-      const { data: refreshedSession } = await supabase.auth.getSession()
-      session = refreshedSession?.session || null
-    }
-
-    // 3. Jika benar-benar tidak ada sesi (belum login), kembalikan ke index.html
-    if (!session) {
+    // Jika tidak ada sesi login, kembalikan ke index.html
+    if (!session || sessionError) {
+      console.warn('Sesi tidak ditemukan, mengalihkan ke index.html')
       window.location.href = '/index.html'
       return
     }
 
-    // 4. Bersihkan token panjang dari URL agar tampilan URL rapi
-    if (window.location.hash.includes('access_token')) {
+    // 2. Bersihkan hash token OAuth dari URL Vercel
+    if (window.location.hash) {
       window.history.replaceState({}, document.title, window.location.pathname)
     }
 
-    // 5. Load data profil dari tabel 'members' Supabase
-    const { data: member, error } = await supabase
+    const user = session.user
+    const discordUsername = user.user_metadata.full_name || user.user_metadata.name || 'Member'
+
+    // 3. Auto-Insert / Upsert User ke Tabel 'members'
+    // Menggunakan ID Auth Supabase agar tidak error .single()
+    const { data: member, error: memberError } = await supabase
       .from('members')
-      .select('id, discord_username, role, status')
-      .eq('id', session.user.id)
+      .upsert({
+        id: user.id,
+        discord_id: user.user_metadata.provider_id || user.id,
+        discord_username: discordUsername,
+        role: 'Pengurus Gudang', // Default role pertama
+        status: 'active'
+      }, { onConflict: 'id' })
+      .select()
       .single()
 
-    if (member) {
-      currentUser = member
+    // 4. Update Tampilan UI Sidebar & Header secara Aman
+    const usernameText = member ? member.discord_username : discordUsername
+    const roleText = member ? member.role : 'Member'
 
-      // Update Tampilan UI Sidebar
-      const nameEl = document.querySelector('aside .truncate')
-      const roleEl = document.querySelectorAll('aside .truncate')[1]
-      const avatarEl = document.querySelector('aside .font-display.font-bold')
-      const welcomeEl = document.querySelector('#view-overview h1')
+    const nameEl = document.querySelector('aside .truncate')
+    const roleEl = document.querySelectorAll('aside .truncate')[1]
+    const avatarEl = document.querySelector('aside .font-display.font-bold')
+    const welcomeEl = document.querySelector('#view-overview h1')
 
-      if (nameEl) nameEl.textContent = member.discord_username
-      if (roleEl) roleEl.textContent = member.role || 'Member'
-      if (avatarEl) avatarEl.textContent = member.discord_username.substring(0, 2).toUpperCase()
-      if (welcomeEl) welcomeEl.textContent = `Halo, ${member.discord_username} 👋`
-    }
+    if (nameEl) nameEl.textContent = usernameText
+    if (roleEl) roleEl.textContent = roleText
+    if (avatarEl) avatarEl.textContent = usernameText.substring(0, 2).toUpperCase()
+    if (welcomeEl) welcomeEl.textContent = `Halo, ${usernameText} 👋`
   }
 
-  // Handle Logout
-  document.querySelector('header a[href="#"]')?.addEventListener('click', async (e) => {
-    e.preventDefault()
-    await supabase.auth.signOut()
-    window.location.href = '/index.html'
-  })
-
-  // Listen perubahan auth state
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_OUT') {
+  // 5. Handle Logout
+  const logoutBtn = document.querySelector('header a[href="#"]')
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault()
+      await supabase.auth.signOut()
       window.location.href = '/index.html'
-    }
-  })
+    })
+  }
 
-  // Jalankan inisialisasi saat DOM siap
-  document.addEventListener('DOMContentLoaded', checkAndInitAuth)
+  // Jalankan autentikasi saat DOM selesai dimuat
+  document.addEventListener('DOMContentLoaded', handleAuth)
 </script>
 </html>
