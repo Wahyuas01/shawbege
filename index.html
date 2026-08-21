@@ -26,7 +26,6 @@
   }
 </script>
 <style>
-  html { scroll-behavior: smooth; }
   body { background:#F8FAFC; }
   .grid-field {
     background-image:
@@ -34,124 +33,131 @@
       linear-gradient(to bottom, rgba(148,163,184,0.09) 1px, transparent 1px);
     background-size: 44px 44px;
   }
-  .view { animation: fade-in .35s ease; }
-  @keyframes fade-in { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .view-page { display: none; }
+  .view-page.active { display: block; }
   .navlink.active { background:rgba(59,130,246,0.12); color:#fff; border-left-color:#3B82F6; }
-  ::selection { background:#3B82F6; color:#fff; }
 </style>
 </head>
 <body class="font-body text-navy-900 antialiased">
 
-  <!-- ============================================================ -->
-  <!-- 1. TAMPILAN LANDING PAGE (DITAMPILKAN JIKA BELUM LOGIN)     -->
-  <!-- ============================================================ -->
-  <div id="landing-page" class="min-h-screen flex flex-col justify-between">
+  <!-- ========================================== -->
+  <!-- HALAMAN 1: LANDING PAGE (URL: /)           -->
+  <!-- ========================================== -->
+  <div id="page-landing" class="view-page min-h-screen flex flex-col justify-between">
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-      <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-2.5 font-display font-extrabold text-lg tracking-tight">
-          <span class="w-8 h-8 rounded-lg bg-navy-900 flex items-center justify-center">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12M5 10V20H10V15H14V20H19V10" stroke="#3B82F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          ShawBege
-        </a>
-        <button id="btn-login-discord" class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-deep rounded-lg px-4 py-2 hover:bg-navy-900 transition-colors">
-          Login dengan Discord
+      <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <span class="font-display font-extrabold text-lg">ShawBege</span>
+        <button class="btn-discord-login text-sm font-semibold text-white bg-deep rounded-lg px-4 py-2 hover:bg-navy-900">
+          Login Discord
         </button>
       </div>
     </header>
 
     <section class="relative overflow-hidden bg-navy-900 text-white py-24 flex-1 flex items-center">
       <div class="absolute inset-0 grid-field"></div>
-      <div class="relative max-w-7xl mx-auto px-6 lg:px-10 text-center">
-        <h1 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight leading-tight">
-          Satu Portal Operasional<br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-accent">Komunitas ShawBege</span>
+      <div class="relative max-w-7xl mx-auto px-6 text-center">
+        <h1 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight">
+          Operational Hub <span class="text-accent">ShawBege</span>
         </h1>
-        <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">
-          Kelola data keanggotaan, stok barang gudang, dan rekap setoran workshop secara real-time.
-        </p>
-        <div class="mt-8">
-          <button id="btn-hero-login" class="bg-accent hover:bg-blue-600 text-white font-semibold text-base px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-accent/20">
-            Akses Portal Internal
-          </button>
-        </div>
+        <p class="mt-4 text-slate-300 max-w-xl mx-auto">Satu tempat untuk memantau data member, stok gudang, dan rekap workshop.</p>
+        <button class="btn-discord-login mt-8 bg-accent text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg">
+          Akses Portal
+        </button>
       </div>
     </section>
 
-    <footer class="bg-navy-950 text-slate-400 py-6 border-t border-white/10 text-center text-xs">
+    <footer class="bg-navy-950 text-slate-400 py-6 text-center text-xs">
       &copy; 2026 ShawBege Community Operations.
     </footer>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 2. TAMPILAN PORTAL INTERNAL (DITAMPILKAN JIKA SUDAH LOGIN)   -->
-  <!-- ============================================================ -->
-  <div id="portal-page" class="min-h-screen flex hidden">
+  <!-- ========================================== -->
+  <!-- HALAMAN 2: PORTAL INTERNAL (URL: /portal)  -->
+  <!-- ========================================== -->
+  <div id="page-portal" class="view-page min-h-screen flex">
     <!-- SIDEBAR -->
     <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-navy-900 text-slate-300 h-screen sticky top-0">
       <div class="h-16 flex items-center gap-2.5 px-6 border-b border-white/10 font-display font-extrabold text-white">
-        <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12M5 10V20H10V15H14V20H19V10" stroke="#3B82F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
         ShawBege
       </div>
-
       <nav class="flex-1 py-6 px-3 space-y-1 text-sm font-medium">
-        <button data-target="overview" class="navlink active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Overview</button>
-        <button data-target="member" class="navlink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Member Directory</button>
-        <button data-target="warehouse" class="navlink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Warehouse</button>
-        <button data-target="workshop" class="navlink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 transition-colors text-left">Workshop Center</button>
+        <button data-tab="overview" class="tablink active w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Overview</button>
+        <button data-tab="member" class="tablink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Member Directory</button>
+        <button data-tab="warehouse" class="tablink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Warehouse</button>
+        <button data-tab="workshop" class="tablink w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg border-l-2 border-transparent hover:bg-white/5 text-left">Workshop Center</button>
       </nav>
 
       <div class="p-4 border-t border-white/10">
         <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3">
-          <div id="userAvatar" class="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-teal flex items-center justify-center font-display font-bold text-white text-sm shrink-0">SB</div>
+          <div id="userAvatar" class="w-9 h-9 rounded-full bg-accent flex items-center justify-center font-bold text-white text-sm">SB</div>
           <div class="min-w-0">
             <p id="userName" class="text-sm font-semibold text-white truncate">Memuat...</p>
-            <p id="userRole" class="text-xs text-slate-400 truncate">Member</p>
+            <p class="text-xs text-slate-400">Member</p>
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- KONTEN PORTAL -->
     <div class="flex-1 min-w-0">
-      <header class="sticky top-0 z-30 h-16 bg-white/85 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-5 lg:px-8">
-        <span id="crumb" class="text-slate-400 font-mono text-xs uppercase tracking-widest">Portal Internal</span>
-        <button id="btnLogout" class="text-sm font-semibold text-slate-500 hover:text-navy-900 transition-colors">Keluar</button>
+      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+        <span class="text-slate-400 font-mono text-xs uppercase">Portal Internal</span>
+        <button id="btnLogout" class="text-sm font-semibold text-slate-500 hover:text-navy-900">Keluar</button>
       </header>
 
-      <main class="p-5 lg:p-8 max-w-7xl mx-auto">
-        <section id="view-overview" class="view">
-          <h1 id="welcomeText" class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Halo... 👋</h1>
-          <p class="text-slate-500 mt-1.5">Ringkasan operasional komunitas ShawBege hari ini.</p>
+      <main class="p-8 max-w-7xl mx-auto">
+        <section id="tab-overview" class="tabview">
+          <h1 id="welcomeText" class="font-display font-extrabold text-3xl">Halo... 👋</h1>
+          <p class="text-slate-500 mt-1">Selamat datang di portal internal ShawBege.</p>
         </section>
 
-        <section id="view-member" class="view hidden">
-          <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Member Directory</h1>
+        <section id="tab-member" class="tabview hidden">
+          <h1 class="font-display font-extrabold text-3xl">Member Directory</h1>
         </section>
 
-        <section id="view-warehouse" class="view hidden">
-          <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Warehouse Management</h1>
+        <section id="tab-warehouse" class="tabview hidden">
+          <h1 class="font-display font-extrabold text-3xl">Warehouse Management</h1>
         </section>
 
-        <section id="view-workshop" class="view hidden">
-          <h1 class="font-display font-extrabold text-2xl lg:text-3xl tracking-tight">Workshop Center</h1>
+        <section id="tab-workshop" class="tabview hidden">
+          <h1 class="font-display font-extrabold text-3xl">Workshop Center</h1>
         </section>
       </main>
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 3. SCRIPT SINGLE PAGE (Satu Tempat, Bebas Mental)           -->
-  <!-- ============================================================ -->
+  <!-- ========================================== -->
+  <!-- ROUTER JAVASCRIPT                          -->
+  <!-- ========================================== -->
   <script type="module">
     import { supabase } from './lib/supabase.js';
 
-    const landingPage = document.getElementById('landing-page');
-    const portalPage = document.getElementById('portal-page');
+    // 1. ROUTER UTAMA (PENGATUR HALAMAN)
+    async function routeManager(session) {
+      const path = window.location.pathname;
 
-    // MINTA DISCORD LOGIN
+      // Sembunyikan semua halaman
+      document.querySelectorAll('.view-page').forEach(page => page.classList.remove('active'));
+
+      if (session) {
+        // Jika User Login -> Tampilkan Halaman Portal
+        document.getElementById('page-portal').classList.add('active');
+        if (path !== '/portal') window.history.pushState({}, '', '/portal');
+
+        // Render Data Profil Discord
+        const discordName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Member';
+        document.getElementById('userName').textContent = discordName;
+        document.getElementById('welcomeText').textContent = `Halo, ${discordName} 👋`;
+        document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
+
+      } else {
+        // Jika Belum Login -> Tampilkan Landing Page
+        document.getElementById('page-landing').classList.add('active');
+        if (path !== '/') window.history.pushState({}, '', '/');
+      }
+    }
+
+    // 2. INI FUNGSI LOGIN DISCORD
     async function loginWithDiscord() {
       await supabase.auth.signInWithOAuth({
         provider: 'discord',
@@ -161,53 +167,35 @@
       });
     }
 
-    // TAMPILAN MANAGEMENT
-    function renderApp(session) {
-      if (session) {
-        landingPage.classList.add('hidden');
-        portalPage.classList.remove('hidden');
-
-        if (window.location.hash) {
-          window.history.replaceState({}, document.title, window.location.pathname);
-        }
-
-        const discordName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Member';
-        document.getElementById('userName').textContent = discordName;
-        document.getElementById('welcomeText').textContent = `Halo, ${discordName} 👋`;
-        document.getElementById('userAvatar').textContent = discordName.substring(0, 2).toUpperCase();
-      } else {
-        landingPage.classList.remove('hidden');
-        portalPage.classList.add('hidden');
-      }
-    }
-
-    // CHECK SESI
-    async function init() {
-      const { data: { session } } = await supabase.auth.getSession();
-      renderApp(session);
-
-      supabase.auth.onAuthStateChange((_event, session) => {
-        renderApp(session);
-      });
-    }
-
-    // NAVIGASI TAB
-    document.querySelectorAll('.navlink').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.target;
-        document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-        document.getElementById('view-' + target)?.classList.remove('hidden');
-        document.querySelectorAll('.navlink').forEach(b => b.classList.toggle('active', b === btn));
-      });
+    // 3. EVENT LISTENERS
+    document.querySelectorAll('.btn-discord-login').forEach(btn => {
+      btn.addEventListener('click', loginWithDiscord);
     });
 
-    // EVENT LISTENERS
-    document.getElementById('btn-login-discord')?.addEventListener('click', loginWithDiscord);
-    document.getElementById('btn-hero-login')?.addEventListener('click', loginWithDiscord);
     document.getElementById('btnLogout')?.addEventListener('click', async () => {
       await supabase.auth.signOut();
-      renderApp(null);
+      routeManager(null);
     });
+
+    // NAVIGASI TAB SIDEBAR PORTAL
+    document.querySelectorAll('.tablink').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.tabview').forEach(v => v.classList.add('hidden'));
+        document.getElementById('tab-' + target)?.classList.remove('hidden');
+        document.querySelectorAll('.tablink').forEach(b => b.classList.toggle('active', b === btn));
+      });
+    });
+
+    // INITIALIZATION
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      routeManager(session);
+
+      supabase.auth.onAuthStateChange((_event, session) => {
+        routeManager(session);
+      });
+    }
 
     document.addEventListener('DOMContentLoaded', init);
   </script>
