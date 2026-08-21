@@ -464,58 +464,47 @@
 <script type="module">
   import { supabase } from './lib/supabase.js'
 
-  async function initPortalAuth() {
-    try {
-      // 1. Berikan waktu 100ms agar Supabase SDK selesai memproses hash #access_token dari URL
-      if (window.location.hash.includes('access_token')) {
-        await new Promise(resolve => setTimeout(resolve, 200))
-      }
+  // Gunakan listener resmi Supabase untuk menangani OAuth Redirect
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('Event Auth:', event)
 
-      // 2. Ambil sesi login aktif
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-
-      if (sessionError || !session) {
-        console.warn('Sesi tidak valid/belum login. Mengalihkan ke index.html')
-        window.location.href = '/index.html'
-        return
-      }
-
-      // 3. Bersihkan hash token dari URL agar tampak rapi
+    // Jika user berhasil terautentikasi (SIGNED_IN atau INITIAL_SESSION)
+    if (session) {
+      // Bersihkan hash token panjang dari URL
       if (window.location.hash) {
         window.history.replaceState({}, document.title, window.location.pathname)
       }
 
       const user = session.user
-      const discordName = user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Member'
+      const discordName = user.user_metadata?.full_name || user.user_metadata?.name || 'Member'
 
-      // 4. Update UI Utama terlebih dahulu tanpa menunggu Database (Cegah Stuck)
+      // Update Tampilan UI
       updateUI(discordName, 'Member')
 
-      // 5. Coba ambil data detail dari tabel 'members'
-      const { data: member, error: memberError } = await supabase
-        .from('members')
-        .select('discord_username, role')
-        .eq('id', user.id)
-        .maybeSingle() // Gunakan maybeSingle() agar tidak melemparkan exception jika data belum ada
+      // Sync ke tabel 'members' Supabase
+      try {
+        const { data: member } = await supabase
+          .from('members')
+          .select('discord_username, role')
+          .eq('id', user.id)
+          .maybeSingle()
 
-      if (member) {
-        updateUI(member.discord_username, member.role || 'Member')
-      } else {
-        // Jika data member belum ada di database, otomatis daftarkan (upsert)
-        await supabase.from('members').upsert({
-          id: user.id,
-          discord_id: user.user_metadata?.provider_id || user.id,
-          discord_username: discordName,
-          role: 'Pengurus Gudang',
-          status: 'active'
-        }, { onConflict: 'id' })
+        if (member) {
+          updateUI(member.discord_username, member.role || 'Member')
+        }
+      } catch (err) {
+        console.error('Error load member:', err)
       }
-
-    } catch (err) {
-      console.error('Terjadi kesalahan saat memproses otentikasi:', err)
-      // Jangan langsung melempar ke index.html jika hanya error query minor
+    } else if (event === 'SIGNED_OUT' || (event === 'INITIAL_SESSION' && !session)) {
+      // Jika benar-benar tidak ada sesi, baru kembalikan ke index.html
+      // Berikan jeda sedikit agar tidak salah menendang user yang baru redirect
+      setTimeout(() => {
+        if (!window.location.hash.includes('access_token')) {
+          window.location.href = '/index.html'
+        }
+      }, 1000)
     }
-  }
+  })
 
   function updateUI(username, role) {
     const nameEl = document.querySelector('aside .truncate')
@@ -535,8 +524,5 @@
     await supabase.auth.signOut()
     window.location.href = '/index.html'
   })
-
-  // Jalankan saat halaman siap
-  document.addEventListener('DOMContentLoaded', initPortalAuth)
 </script>
 </html>
